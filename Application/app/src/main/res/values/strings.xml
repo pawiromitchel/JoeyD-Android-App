@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">Joeyd</string>
+    <string name="app_name">Joey D\'s</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

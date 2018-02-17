@@ -10,11 +10,16 @@ public class User {
     private String lastName;
     private String userName;
     private String password;
+    private String mobileNumber;
 
+    public User() {
+    }
 
-    public User(long id, String firstName, String lastName, String userName, String password) {
+    public User(long id, String firstName, String lastName, String mobileNumber, String userName, String password) {
         this.id = id;
         this.firstName = firstName;
+        this.lastName = lastName;
+        this.mobileNumber = mobileNumber;
         this.userName = userName;
         this.userName = userName;
         this.password = password;
@@ -42,6 +47,14 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
     }
 
     public String getUserName() {

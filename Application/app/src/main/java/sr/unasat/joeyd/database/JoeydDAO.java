@@ -97,7 +97,7 @@ public class JoeydDAO extends SQLiteOpenHelper {
         String sql = String.format("select * from %s", USER_TABLE);
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor.moveToFirst()) {
-            user = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
+            user = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
         }
         db.close();
         return user;
@@ -109,7 +109,7 @@ public class JoeydDAO extends SQLiteOpenHelper {
         String sql = String.format("select * from %s where username = '%s' AND password = '%s'", USER_TABLE, username, password);
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor.moveToFirst()) {
-            user = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
+            user = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
         }
         db.close();
         return user;

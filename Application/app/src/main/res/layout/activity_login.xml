@@ -35,17 +35,17 @@
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
-        android:onClick="doSignUp"
+        android:layout_marginTop="15dp"
+        android:onClick="goToSignUp"
         android:text="Sign Up"
         android:textAlignment="center"
         android:textColor="@android:color/holo_blue_dark"
         android:textStyle="bold"
         android:visibility="visible" />
-    
+
     <FrameLayout
         android:id="@+id/frameContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

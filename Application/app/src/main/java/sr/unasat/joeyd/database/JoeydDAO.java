@@ -24,7 +24,7 @@ public class JoeydDAO extends SQLiteOpenHelper {
     public static final String USER_USERNAME = "username";
     public static final String USER_PASSWORD = "password";
 
-    private static final String SQL_USER_TABLE_QUERY = "create table user (id INTEGER PRIMARY KEY, first_name STRING, last_name STRING, username STRING NOT NULL UNIQUE, password STRING NOT NULL)";
+    private static final String SQL_USER_TABLE_QUERY = "create table user (id INTEGER PRIMARY KEY, first_name STRING, last_name STRING, mobile_number STRING, username STRING NOT NULL UNIQUE, password STRING NOT NULL)";
     private static final String SQL_DISH_TABLE_QUERY = "create table dish (id INTEGER PRIMARY KEY, name STRING NOT NULL UNIQUE, price STRING NOT NULL, special INTEGER NOT NULL)";
     private static final String SQL_ORDER_ITEM_TABLE_QUERY = "create table order_item (id INTEGER PRIMARY KEY, dish_id INTEGER, quantity DOUBLE, user_id INTEGER, datetime TIMESTAMP, FOREIGN KEY(dish_id) REFERENCES dish(id), FOREIGN KEY(user_id) REFERENCES user(id))";
     private static final String SQL_RECEIPT_TABLE_QUERY = "create table receipt (id INTEGER PRIMARY KEY, total_price DOUBLE)";
@@ -97,7 +97,8 @@ public class JoeydDAO extends SQLiteOpenHelper {
         String sql = String.format("select * from %s", USER_TABLE);
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor.moveToFirst()) {
-            user = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
+            user = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2),
+                    cursor.getString(3), cursor.getString(4), cursor.getString(5));
         }
         db.close();
         return user;

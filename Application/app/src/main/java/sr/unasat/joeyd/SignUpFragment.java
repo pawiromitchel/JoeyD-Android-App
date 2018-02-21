@@ -20,7 +20,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     private static View view;
     private static EditText firstName, lastName, mobileNumber, userName,
         password, confirmPassowrd;
-    private static Button signUpBtn;
+    private static Button signUpBtn_frag;
 
     public SignUpFragment() {
         // Required empty public constructor
@@ -33,7 +33,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.signup_layout, container, false);
         initViews();
-        signUpBtn.setOnClickListener(this);
+        signUpBtn_frag.setOnClickListener(this);
         return view;
     }
 
@@ -42,16 +42,16 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         firstName = (EditText) view.findViewById(R.id.firstName);
         lastName = (EditText) view.findViewById(R.id.lastName);
         mobileNumber = (EditText) view.findViewById(R.id.mobileNumber);
-        password = (EditText) view.findViewById(R.id.password);
         userName = (EditText) view.findViewById(R.id.username);
         password = (EditText) view.findViewById(R.id.password);
         confirmPassowrd = (EditText) view.findViewById(R.id.confirmPassword);
-        signUpBtn = (Button) view.findViewById(R.id.signUpBtn);
+        signUpBtn_frag = (Button) view.findViewById(R.id.fragment_signUp);
     }
 
     @Override
     public void onClick(View view) {
-        signUpBtn.setOnClickListener(this);
+        checkValidation(new User());
+        signUpBtn_frag.setOnClickListener(this);
     }
 
     //Check validation
@@ -73,4 +73,6 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                 || getConfirmPassword.equals("")
                 || getConfirmPassword.length() == 0);
         }
+
+
 }

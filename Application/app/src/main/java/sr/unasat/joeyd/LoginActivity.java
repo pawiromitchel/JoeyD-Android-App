@@ -1,6 +1,9 @@
 package sr.unasat.joeyd;
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -24,7 +27,15 @@ public class LoginActivity extends AppCompatActivity {
 
         usernameEditText = (EditText) findViewById(R.id.usernameEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
+        Button signUp = (Button) findViewById(R.id.signUpBtn);
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadFragment();
+            }
+        });
     }
+
 
     public void doLogin(View view) {
         joeydDAO = new JoeydDAO(this);
@@ -39,7 +50,18 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public void doSignUp(View view){
+    public void goToSignUp(View view){
+        loadFragment();
+    }
 
+    private void loadFragment(){
+       /* FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frameContainer, fragment);
+        transaction.commit();*/
+
+       Intent intent = new Intent();
+        SignUpFragment signUpFragment = new SignUpFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, signUpFragment).commit();
     }
 }

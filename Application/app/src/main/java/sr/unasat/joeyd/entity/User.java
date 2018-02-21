@@ -21,7 +21,6 @@ public class User {
         this.lastName = lastName;
         this.mobileNumber = mobileNumber;
         this.userName = userName;
-        this.userName = userName;
         this.password = password;
     }
 

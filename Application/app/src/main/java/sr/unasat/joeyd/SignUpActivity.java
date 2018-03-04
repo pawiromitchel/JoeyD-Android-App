@@ -1,61 +1,48 @@
 package sr.unasat.joeyd;
 
-
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import sr.unasat.joeyd.entity.User;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
-public class SignUpFragment extends Fragment implements View.OnClickListener {
+public class SignUpActivity extends AppCompatActivity {
 
     private static View view;
     private static EditText firstName, lastName, mobileNumber, userName,
-        password, confirmPassowrd;
+            password, confirmPassowrd;
     private static Button signUpBtn_frag;
 
-    public SignUpFragment() {
-        // Required empty public constructor
-    }
-
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.signup_layout, container, false);
-        initViews();
-        signUpBtn_frag.setOnClickListener(this);
-        return view;
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sign_up);
+        EditText firstName = (EditText) findViewById(R.id.firstName);
+        EditText lastName = (EditText) findViewById(R.id.lastName);
+        EditText mobileNumber = (EditText) findViewById(R.id.mobileNumber);
+        EditText userName = (EditText) findViewById(R.id.username);
+        EditText password = (EditText) findViewById(R.id.password);
+        EditText confirmPassowrd = (EditText) findViewById(R.id.confirmPassword);
+        Button signUpBtn_frag = (Button) findViewById(R.id.fragment_signUp);
     }
 
-    //initialize all View components
-    private void initViews(){
-        firstName = (EditText) view.findViewById(R.id.firstName);
+   /* private View initViews(){
+        EditText firstName = (EditText) view.findViewById(R.id.firstName);
         lastName = (EditText) view.findViewById(R.id.lastName);
         mobileNumber = (EditText) view.findViewById(R.id.mobileNumber);
         userName = (EditText) view.findViewById(R.id.username);
         password = (EditText) view.findViewById(R.id.password);
         confirmPassowrd = (EditText) view.findViewById(R.id.confirmPassword);
         signUpBtn_frag = (Button) view.findViewById(R.id.fragment_signUp);
-    }
-
-    @Override
-    public void onClick(View view) {
-        checkValidation(new User());
-        signUpBtn_frag.setOnClickListener(this);
-    }
+        return view;
+    }*/
 
     //Check validation
-    private void checkValidation(User user){
+    private User checkValidation(User user){
         user = new User();
         String getFirstName = firstName.getText().toString();
         String getLastName = lastName.getText().toString();
@@ -72,7 +59,13 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                 || getPassword.equals("") || getPassword.length() == 0
                 || getConfirmPassword.equals("")
                 || getConfirmPassword.length() == 0);
-        }
+        return user;
+    }
 
-
+    public void signUp(View view) {
+        checkValidation(new User());
+        signUpBtn_frag.setOnClickListener((View.OnClickListener) this);
+        Intent intent = new Intent(SignUpActivity.this, LoginScreenActivity.class);
+        Toast.makeText(this, "You have succesfully signed up", Toast.LENGTH_SHORT).show();
+    }
 }

@@ -5,6 +5,8 @@
     android:paddingLeft="8dp"
     android:paddingRight="8dp">
 
+    <!--Layout for each row in the RecyclerView-->
+
     <ImageView
         android:id="@+id/dishImage"
         android:src="#000"

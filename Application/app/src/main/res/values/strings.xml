@@ -7,6 +7,10 @@
     <string name="special_menu">"Today's Specials"</string>
     <string name="daily_menu">Daily Dishes</string>
 
+    <!--Dish Description-->
+    <string name="order_button">ORDER :)</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main_menu">MainMenuActivity</string>
@@ -16,4 +20,5 @@
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_dish_menu">DishMenuActivity</string>
+    <string name="title_activity_dish_description">DishDescriptionActivity</string>
 </resources>

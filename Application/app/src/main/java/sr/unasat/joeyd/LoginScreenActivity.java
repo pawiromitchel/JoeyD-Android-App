@@ -26,7 +26,8 @@ public class LoginScreenActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               //loadFragment();
+               Intent intent = new Intent(LoginScreenActivity.this,TodaysMenuActivity.class);
+               startActivity(intent);
             }
         });
     }

@@ -25,7 +25,8 @@
             android:label="@string/title_activity_dish_menu"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".TodaysMenuActivity"></activity>
+        <activity android:name=".TodaysMenuActivity" />
+        <activity android:name=".DishDescriptionActivity"></activity>
     </application>
 
 </manifest>

@@ -6,8 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import sr.unasat.joeyd.R;
 import sr.unasat.joeyd.entity.User;
 
 /**
@@ -50,6 +52,19 @@ public class JoeydDAO extends SQLiteOpenHelper {
     }
 
     private void fillDishTable(){
+        List<ContentValues> contentValues = new ArrayList<ContentValues>();
+
+        ContentValues dish1 = new ContentValues();
+        dish1.put("id", 1);
+        dish1.put("name", "Spicy Noodles");
+        dish1.put("price", 20);
+        dish1.put("img_id", R.drawable.joeyds_logoimage);
+        dish1.put("type", "normal");
+        dish1.put("day", "everyday");
+
+        ContentValues dish2 = new ContentValues();
+
+        contentValues.add(dish1);
 
     }
 

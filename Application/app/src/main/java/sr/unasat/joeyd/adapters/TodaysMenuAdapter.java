@@ -43,9 +43,9 @@ public class TodaysMenuAdapter extends RecyclerView.Adapter<TodaysMenuAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Dish current = data.get(position);
-        holder.dishName.setText(current.getDish_name());
-        holder.dishPrice.setText(current.getDish_price());
-        holder.dishImage.setImageDrawable(context.getDrawable(current.getDish_img_id()));
+        holder.dishName.setText(current.getName());
+        holder.dishPrice.setText(current.getPrice());
+        holder.dishImage.setImageDrawable(context.getDrawable(current.getImg_id()));
     }
 
     @Override
@@ -64,7 +64,8 @@ public class TodaysMenuAdapter extends RecyclerView.Adapter<TodaysMenuAdapter.Vi
             dishName = itemView.findViewById(R.id.dishName);
             dishPrice = itemView.findViewById(R.id.dishPrice);
             dishImage = itemView.findViewById(R.id.dishImage);
-            dishImage.setOnClickListener(this);
+
+            itemView.setOnClickListener(this);
         }
 
         @Override

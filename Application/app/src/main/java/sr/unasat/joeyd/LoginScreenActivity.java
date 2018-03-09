@@ -26,7 +26,7 @@ public class LoginScreenActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               Intent intent = new Intent(LoginScreenActivity.this,TodaysMenuActivity.class);
+               Intent intent = new Intent(LoginScreenActivity.this,MainMenuActivity.class);
                startActivity(intent);
             }
         });

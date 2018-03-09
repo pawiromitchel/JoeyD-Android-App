@@ -13,42 +13,41 @@ import sr.unasat.joeyd.entity.Dish;
 
 public class TodaysMenuActivity extends AppCompatActivity {
 
-    private TodaysMenuAdapter adapter;
-    private TodaysMenuAdapter adapter2;
+    private TodaysMenuAdapter specialAdapter;
+    private TodaysMenuAdapter dailyAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todays_menu);
 
-        adapter = new TodaysMenuAdapter(this, getSpecialData());
+        specialAdapter = new TodaysMenuAdapter(this, getSpecialData());
 
         RecyclerView recyclerView_special = (RecyclerView) findViewById(R.id.special_menu_list);
-        recyclerView_special.setAdapter(adapter);
+        recyclerView_special.setAdapter(specialAdapter);
         recyclerView_special.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter2 = new TodaysMenuAdapter(this, getDailyData());
+        dailyAdapter = new TodaysMenuAdapter(this, getDailyData());
 
         RecyclerView recyclerView_daily = (RecyclerView) findViewById((R.id.daily_menu_list));
-        recyclerView_daily.setAdapter((adapter2));
+        recyclerView_daily.setAdapter((dailyAdapter));
         recyclerView_daily.setLayoutManager(new LinearLayoutManager(this));
 
     }
 
     private List<Dish> getSpecialData() {
-        List<Dish> c = new ArrayList<>();
-        c.add(new Dish(1, "dish1", "SRD1,-", R.drawable.joeyds_logoimage));
-        c.add(new Dish(2, "dish2", "SRD2,-", R.drawable.joeyds_logoimage));
-        c.add(new Dish(3, "dish3", "SRD3,-", R.drawable.joeyds_logoimage));
-        return c;
+        List<Dish> special = new ArrayList<>();
+        special.add(new Dish(1, "dish1", "SRD1,-", R.drawable.joeyds_logoimage, "special", "monday"));
+             return special;
     }
 
     private List<Dish> getDailyData() {
-        List<Dish> d = new ArrayList<>();
-        d.add(new Dish(1, "dish4", "SRD4,-", R.drawable.joeyds_logoimage));
-        d.add(new Dish(2, "dish5", "SRD5,-", R.drawable.joeyds_logoimage));
-        d.add(new Dish(3, "dish6", "SRD6,-", R.drawable.joeyds_logoimage));
-        return d;
+        List<Dish> daily = new ArrayList<>();
+        daily.add(new Dish(1, "Beef Burger", "SRD30,-", R.drawable.joeyds_logoimage, "daily", "everyday"));
+        daily.add(new Dish(2, "Chicken Burger", "SRD30,-", R.drawable.joeyds_logoimage, "daily", "everyday"));
+        daily.add(new Dish(3, "Fried Rice", "SRD25,-", R.drawable.joeyds_logoimage, "daily", "everyday"));
+        daily.add(new Dish(3, "Fried Noodles", "SRD25,-", R.drawable.joeyds_logoimage, "daily", "everyday"));
+        return daily;
     }
 
 }

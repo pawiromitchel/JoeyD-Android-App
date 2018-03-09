@@ -33,7 +33,7 @@ public class DishDescriptionActivity extends AppCompatActivity {
             dish = (Dish)getIntent().getSerializableExtra("1");//obtaining data from selected dish
         }
 
-        dish_desc.setText(dish.getDish_name());
-        dish_img.setImageDrawable(this.getDrawable(dish.getDish_img_id()));
+        dish_desc.setText(dish.getName());
+        dish_img.setImageDrawable(this.getDrawable(dish.getImg_id()));
     }
 }

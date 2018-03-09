@@ -64,7 +64,6 @@ public class TodaysMenuAdapter extends RecyclerView.Adapter<TodaysMenuAdapter.Vi
             dishName = itemView.findViewById(R.id.dishName);
             dishPrice = itemView.findViewById(R.id.dishPrice);
             dishImage = itemView.findViewById(R.id.dishImage);
-
             itemView.setOnClickListener(this);
         }
 

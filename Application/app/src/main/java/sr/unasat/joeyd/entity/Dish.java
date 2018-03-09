@@ -1,7 +1,5 @@
 package sr.unasat.joeyd.entity;
 
-import android.graphics.drawable.Drawable;
-
 import java.io.Serializable;
 
 /**
@@ -11,30 +9,19 @@ import java.io.Serializable;
 public class Dish implements Serializable{
 
     private long id;
-    private String dish_name;
-    private String dish_price;
-    //private Integer dish_img_id;
-    private Drawable dish_img;
-    private int dish_img_id;
+    private String name;
+    private String price;
+    private int img_id;
+    private String type;
+    private String day;
 
-    public Dish(long id, String dish_name, String dish_price, int dish_img) {
+    public Dish(long id, String name, String price, int img_id, String type, String day) {
         this.id = id;
-        this.dish_name = dish_name;
-        this.dish_price = dish_price;
-//        this.special = special;
-        this.dish_img_id = dish_img;
-    }
-
-    public int getDish_img_id() {
-        return this.dish_img_id;
-    }
-
-    public Drawable getDish_img() {
-        return dish_img;
-    }
-
-    public void setDish_img(Drawable dish_img) {
-        this.dish_img = dish_img;
+        this.name = name;
+        this.price = price;
+        this.img_id = img_id;
+        this.type = type;
+        this.day = day;
     }
 
     public long getId() {
@@ -45,36 +32,43 @@ public class Dish implements Serializable{
         this.id = id;
     }
 
-    public String getDish_name() {
-        return dish_name;
+    public String getName() {
+        return name;
     }
 
-    public void setDish_name(String dish_name) {
-        this.dish_name = dish_name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDish_price() {
-        return dish_price;
+    public String getPrice() {
+        return price;
     }
 
-    public void setDish_price(String dish_price) {
-        this.dish_price = dish_price;
+    public void setPrice(String price) {
+        this.price = price;
     }
 
-//    public Integer getSpecial() {
-//        return special;
-//    }
-//
-//    public void setSpecial(Integer special) {
-//        this.special = special;
-//    }
+    public int getImg_id() {
+        return img_id;
+    }
 
-//    public Integer getDish_imag_id() {
-//        return dish_img_id;
-//    }
-//
-//    public void setDish_imag_id(Integer dish_imag_id) {
-//        this.dish_img_id = dish_imag_id;
-//    }
+    public void setImg_id(int img_id) {
+        this.img_id = img_id;
+    }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
+    }
 }

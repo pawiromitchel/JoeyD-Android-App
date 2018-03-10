@@ -83,20 +83,20 @@ public class JoeydDAO extends SQLiteOpenHelper {
         dish3.put("day", "everyday");
 
         ContentValues dish4 = new ContentValues();
-        dish3.put("id", 4);
-        dish3.put("name", "Beef Stew");
-        dish3.put("price", 25);
-        dish3.put("img_id", R.drawable.beef_stew);
-        dish3.put("type", "daily");
-        dish3.put("day", "everyday");
+        dish4.put("id", 4);
+        dish4.put("name", "Beef Stew");
+        dish4.put("price", 25);
+        dish4.put("img_id", R.drawable.beef_stew);
+        dish4.put("type", "daily");
+        dish4.put("day", "everyday");
 
         ContentValues dish5 = new ContentValues();
-        dish3.put("id", 5);
-        dish3.put("name", "Chicken Alfredo");
-        dish3.put("price", 20);
-        dish3.put("img_id", R.drawable.chicken_alfredo);
-        dish3.put("type", "daily");
-        dish3.put("day", "everyday");
+        dish5.put("id", 5);
+        dish5.put("name", "Chicken Alfredo");
+        dish5.put("price", 20);
+        dish5.put("img_id", R.drawable.chicken_alfredo);
+        dish5.put("type", "daily");
+        dish5.put("day", "everyday");
 
         List<ContentValues> contentValues = new ArrayList<ContentValues>();
         contentValues.add(dish1);
@@ -104,6 +104,8 @@ public class JoeydDAO extends SQLiteOpenHelper {
         contentValues.add(dish3);
         contentValues.add(dish4);
         contentValues.add(dish5);
+
+        insertMultipleRecord("dish", contentValues);
 
     }
 
@@ -146,7 +148,7 @@ public class JoeydDAO extends SQLiteOpenHelper {
     public User findOneRecordByUsername(String username) {
         User user = null;
         SQLiteDatabase db = getReadableDatabase();
-        String sql = String.format("select * from %s where username = %s", USER_TABLE, username);
+        String sql = String.format("select * from %s where username = '%s'", USER_TABLE, username);
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor.moveToFirst()) {
             user = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2),
@@ -159,7 +161,7 @@ public class JoeydDAO extends SQLiteOpenHelper {
     public Dish findOneRecordByDishName(String dishName){
         Dish dish = null;
         SQLiteDatabase db = getReadableDatabase();
-        String sql = String.format("select * from %s where name = %s", "dish", dishName);
+        String sql = String.format("select * from %s where name = '%s'", "dish", dishName);
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor.moveToFirst()) {
             dish = new Dish(cursor.getInt(0), cursor.getString(1), cursor.getString(2),

@@ -73,8 +73,6 @@ public class MainMenuActivity extends AppCompatActivity
         RecyclerView recyclerView_daily = (RecyclerView) findViewById((R.id.daily_menu_list));
         recyclerView_daily.setAdapter((dailyAdapter));
         recyclerView_daily.setLayoutManager(new LinearLayoutManager(this));
-
-        fetchAllDishes();
     }
 
     @Override
@@ -142,28 +140,22 @@ public class MainMenuActivity extends AppCompatActivity
     }
 
     private List<Dish> getDailyData() {
-        List<Dish> daily = new ArrayList<>();
-        daily.add(new Dish(1, "Beef Burger", "SRD30,-", R.drawable.beef_burger, "daily", "everyday"));
-        daily.add(new Dish(2, "Chicken Burger", "SRD30,-", R.drawable.chicken_burger, "daily", "everyday"));
-        daily.add(new Dish(3, "Fried Rice", "SRD25,-", R.drawable.fried_rice, "daily", "everyday"));
-        daily.add(new Dish(3, "Fried Noodles", "SRD25,-", R.drawable.joeyds_logoimage, "daily", "everyday"));
-        return daily;
-    }
-
-    private void fetchAllDishes(){
         try{
             SQLiteOpenHelper joeyDDatabaseHelper = new JoeydDAO(this);
             db = joeyDDatabaseHelper.getReadableDatabase();
             dishesCursor = db.rawQuery("select * from dish", null);
-            Dish dish = null;
-            if(dishesCursor.moveToFirst()){
-                dish = new Dish(dishesCursor.getInt(0), dishesCursor.getString(1), dishesCursor.getString(2),
-                        dishesCursor.getInt(3), dishesCursor.getString(4), dishesCursor.getString(5));
+            List<Dish> dailyDishes = new ArrayList<>();
+            while(dishesCursor.moveToNext()){
+                dailyDishes.add(new Dish(dishesCursor.getInt(0), dishesCursor.getString(1), dishesCursor.getString(2),
+                        dishesCursor.getInt(3), dishesCursor.getString(4), dishesCursor.getString(5)));
             }
             db.close();
+            return dailyDishes;
         }catch (SQLiteException e){
             Toast toast = Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT);
             toast.show();
         }
+
+        return null;
     }
 }

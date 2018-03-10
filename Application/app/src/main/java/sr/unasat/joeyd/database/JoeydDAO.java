@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sr.unasat.joeyd.R;
+import sr.unasat.joeyd.entity.Dish;
 import sr.unasat.joeyd.entity.User;
 
 /**
@@ -28,13 +29,14 @@ public class JoeydDAO extends SQLiteOpenHelper {
 
     private static final String SQL_USER_TABLE_QUERY = "create table user (id INTEGER PRIMARY KEY, first_name STRING, last_name STRING, mobile_number STRING, username STRING NOT NULL UNIQUE, password STRING NOT NULL)";
     private static final String SQL_ORDER_ITEM_TABLE_QUERY = "create table order_item (id INTEGER PRIMARY KEY, dish_id INTEGER, quantity DOUBLE, user_id INTEGER, datetime TIMESTAMP, portion_size STRING NOT NULL, FOREIGN KEY(dish_id) REFERENCES dish(id), FOREIGN KEY(user_id) REFERENCES user(id))";
-    private static final String SQL_DISH_TABLE_QUERY = "create table dish (id INTEGER PRIMARY KEY, name STRING NOT NULL UNIQUE, price STRING NOT NULL, img_id INT, type STRING NOT NULL, day STRING NOT NULL)";
+    private static final String SQL_DISH_TABLE_QUERY = "create table dish (id INTEGER PRIMARY KEY, name STRING NOT NULL UNIQUE, price DOUBLE NOT NULL, img_id INT, type STRING NOT NULL, day STRING NOT NULL)";
     private static final String SQL_ORDER_TABLE_QUERY = "create table `order` (id INTEGER PRIMARY KEY, order_item_id INTEGER, receipt_id INTEGER, FOREIGN KEY(order_item_id) REFERENCES order_item(id), FOREIGN KEY(receipt_id) REFERENCES receipt(id))";
     private static final String SQL_RECEIPT_TABLE_QUERY = "create table receipt (id INTEGER PRIMARY KEY, total_price DOUBLE, status STRING)";
 
     public JoeydDAO(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         setDefaultCredentials();
+        fillDishTable();
     }
 
     private void setDefaultCredentials() {
@@ -52,19 +54,56 @@ public class JoeydDAO extends SQLiteOpenHelper {
     }
 
     private void fillDishTable(){
-        List<ContentValues> contentValues = new ArrayList<ContentValues>();
-
+        Dish dish = findOneRecordByDishName("Beef Burger");
+        if (dish != null){
+            return;
+        }
         ContentValues dish1 = new ContentValues();
         dish1.put("id", 1);
-        dish1.put("name", "Spicy Noodles");
-        dish1.put("price", 20);
-        dish1.put("img_id", R.drawable.joeyds_logoimage);
-        dish1.put("type", "normal");
+        dish1.put("name", "Beef Burger");
+        dish1.put("price", 30);
+        dish1.put("img_id", R.drawable.beef_burger);
+        dish1.put("type", "daily");
         dish1.put("day", "everyday");
 
         ContentValues dish2 = new ContentValues();
+        dish2.put("id", 2);
+        dish2.put("name", "Chicken Burger");
+        dish2.put("price", 30);
+        dish2.put("img_id", R.drawable.chicken_burger);
+        dish2.put("type", "daily");
+        dish2.put("day", "everyday");
 
+        ContentValues dish3 = new ContentValues();
+        dish3.put("id", 3);
+        dish3.put("name", "Fried Rice");
+        dish3.put("price", 25);
+        dish3.put("img_id", R.drawable.fried_rice);
+        dish3.put("type", "daily");
+        dish3.put("day", "everyday");
+
+        ContentValues dish4 = new ContentValues();
+        dish3.put("id", 4);
+        dish3.put("name", "Beef Stew");
+        dish3.put("price", 25);
+        dish3.put("img_id", R.drawable.beef_stew);
+        dish3.put("type", "daily");
+        dish3.put("day", "everyday");
+
+        ContentValues dish5 = new ContentValues();
+        dish3.put("id", 5);
+        dish3.put("name", "Chicken Alfredo");
+        dish3.put("price", 20);
+        dish3.put("img_id", R.drawable.chicken_alfredo);
+        dish3.put("type", "daily");
+        dish3.put("day", "everyday");
+
+        List<ContentValues> contentValues = new ArrayList<ContentValues>();
         contentValues.add(dish1);
+        contentValues.add(dish2);
+        contentValues.add(dish3);
+        contentValues.add(dish4);
+        contentValues.add(dish5);
 
     }
 
@@ -107,7 +146,7 @@ public class JoeydDAO extends SQLiteOpenHelper {
     public User findOneRecordByUsername(String username) {
         User user = null;
         SQLiteDatabase db = getReadableDatabase();
-        String sql = String.format("select * from %s", USER_TABLE);
+        String sql = String.format("select * from %s where username = %s", USER_TABLE, username);
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor.moveToFirst()) {
             user = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2),
@@ -115,6 +154,19 @@ public class JoeydDAO extends SQLiteOpenHelper {
         }
         db.close();
         return user;
+    }
+
+    public Dish findOneRecordByDishName(String dishName){
+        Dish dish = null;
+        SQLiteDatabase db = getReadableDatabase();
+        String sql = String.format("select * from %s where name = %s", "dish", dishName);
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor.moveToFirst()) {
+            dish = new Dish(cursor.getInt(0), cursor.getString(1), cursor.getString(2),
+                    cursor.getInt(3), cursor.getString(4), cursor.getString(5));
+        }
+        db.close();
+        return dish;
     }
 
     public User authenticateUser(String username, String password) {

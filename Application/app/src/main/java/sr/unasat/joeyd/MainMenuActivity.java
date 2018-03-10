@@ -1,5 +1,9 @@
 package sr.unasat.joeyd;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,11 +18,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import sr.unasat.joeyd.adapters.TodaysMenuAdapter;
+import sr.unasat.joeyd.database.JoeydDAO;
 import sr.unasat.joeyd.entity.Dish;
 
 public class MainMenuActivity extends AppCompatActivity
@@ -26,6 +32,9 @@ public class MainMenuActivity extends AppCompatActivity
 
     private TodaysMenuAdapter specialAdapter;
     private TodaysMenuAdapter dailyAdapter;
+
+    private SQLiteDatabase db;
+    private Cursor dishesCursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +73,8 @@ public class MainMenuActivity extends AppCompatActivity
         RecyclerView recyclerView_daily = (RecyclerView) findViewById((R.id.daily_menu_list));
         recyclerView_daily.setAdapter((dailyAdapter));
         recyclerView_daily.setLayoutManager(new LinearLayoutManager(this));
+
+        fetchAllDishes();
     }
 
     @Override
@@ -137,5 +148,22 @@ public class MainMenuActivity extends AppCompatActivity
         daily.add(new Dish(3, "Fried Rice", "SRD25,-", R.drawable.fried_rice, "daily", "everyday"));
         daily.add(new Dish(3, "Fried Noodles", "SRD25,-", R.drawable.joeyds_logoimage, "daily", "everyday"));
         return daily;
+    }
+
+    private void fetchAllDishes(){
+        try{
+            SQLiteOpenHelper joeyDDatabaseHelper = new JoeydDAO(this);
+            db = joeyDDatabaseHelper.getReadableDatabase();
+            dishesCursor = db.rawQuery("select * from dish", null);
+            Dish dish = null;
+            if(dishesCursor.moveToFirst()){
+                dish = new Dish(dishesCursor.getInt(0), dishesCursor.getString(1), dishesCursor.getString(2),
+                        dishesCursor.getInt(3), dishesCursor.getString(4), dishesCursor.getString(5));
+            }
+            db.close();
+        }catch (SQLiteException e){
+            Toast toast = Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 }

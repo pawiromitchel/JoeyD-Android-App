@@ -1,6 +1,7 @@
 package sr.unasat.joeyd;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -25,7 +26,6 @@ public class OrderActivity extends AppCompatActivity {
 
     private SQLiteDatabase db;
     private Cursor getUserPendingReceipt;
-    private Cursor receiptCursor;
 
     // TODO: get User Object from IntentExtra
     private int UserID = 1;
@@ -43,41 +43,74 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     public void addToOrder(View view) {
-        System.out.println("test");
-//        int quantity = (Integer) quantitySpinner.getSelectedItem();
-//
-//        // TODO: Make new receipt
         SQLiteOpenHelper joeyDDatabaseHelper = new JoeydDAO(this);
         db = joeyDDatabaseHelper.getReadableDatabase();
-//
-//        // create an empty receipt
-//        ContentValues receipt = new ContentValues();
-        getUserPendingReceipt = db.rawQuery(String.format("select id from receipt where user_id = %s", UserID), null);
+
+        getUserPendingReceipt = db.rawQuery(String.format("select id from receipt where user_id = %s AND status = 'pending'", UserID), null);
         int userReceipt = 0;
         if (getUserPendingReceipt.moveToFirst()) {
             userReceipt = getUserPendingReceipt.getInt(0);
         }
 
+        // no pending receipt found
         if(userReceipt == 0){
-            
+            // create new empty receipt
+            ContentValues newReceipt = new ContentValues();
+            newReceipt.put("receipt_number", Math.random());
+            newReceipt.put("user_id", UserID);
+            newReceipt.put("total_price", 0);
+            newReceipt.put("status", "pending");
+            long newUserReceiptID = db.insert("receipt", null, newReceipt);
+
+            // insert into order_item
+            int quantity = Integer.parseInt(quantitySpinner.getSelectedItem().toString());
+            ContentValues orderItem = new ContentValues();
+            orderItem.put("dish_id", dish.getId());
+            orderItem.put("quantity", quantity);
+            orderItem.put("user_id", 1);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date();
+            orderItem.put("datetime", dateFormat.format(date));
+            long orderItemID = db.insert("order_item", null, orderItem);
+
+            // insert into order tussentable
+            ContentValues orderTableValues = new ContentValues();
+            orderTableValues.put("order_item_id", orderItemID);
+            orderTableValues.put("receipt_id", newUserReceiptID);
+            long orderTableID = db.insert("`order`", null, orderTableValues);
+
+            Toast toast = Toast.makeText(this, "Successfully added " + dish.getName() + " to your orders", Toast.LENGTH_SHORT);
+            toast.show();
+
+            // navigate user to Main Menu
+            Intent intent = new Intent(OrderActivity.this, MainMenuActivity.class);
+            startActivity(intent);
+
+        } else {
+            // insert into order_item
+            int quantity = Integer.parseInt(quantitySpinner.getSelectedItem().toString());
+            ContentValues orderItem = new ContentValues();
+            orderItem.put("dish_id", dish.getId());
+            orderItem.put("quantity", quantity);
+            orderItem.put("user_id", 1);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date();
+            orderItem.put("datetime", dateFormat.format(date));
+            long orderItemID = db.insert("order_item", null, orderItem);
+
+            // insert into order tussentable
+            ContentValues orderTableValues = new ContentValues();
+            orderTableValues.put("order_item_id", orderItemID);
+            orderTableValues.put("receipt_id", userReceipt);
+            long orderTableID = db.insert("`order`", null, orderTableValues);
+
+            Toast toast = Toast.makeText(this, "Successfully added " + dish.getName() + " to your orders", Toast.LENGTH_SHORT);
+            toast.show();
+
+            // navigate user to Main Menu
+            Intent intent = new Intent(OrderActivity.this, MainMenuActivity.class);
+            startActivity(intent);
         }
         db.close();
-
-        // check if user has pending receipt
-        // if not -> create a new receipt
-        // if exist -> get the receipt id and work with that
-
-        // create order tussen table order_item + receipt_id
-
-        // insert into order_item
-//        ContentValues orderItem = new ContentValues();
-//        orderItem.put("dish_id", dish.getId());
-//        orderItem.put("quantity", quantity);
-//        orderItem.put("user_id", 1);
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        Date date = new Date();
-//        orderItem.put("datetime", dateFormat.format(date));
-//        long rowid = db.insert("order_item", null, orderItem);
-
     }
 }

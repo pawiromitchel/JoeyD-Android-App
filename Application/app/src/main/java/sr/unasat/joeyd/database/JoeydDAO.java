@@ -27,11 +27,11 @@ public class JoeydDAO extends SQLiteOpenHelper {
     public static final String USER_USERNAME = "username";
     public static final String USER_PASSWORD = "password";
 
-    private static final String SQL_USER_TABLE_QUERY = "create table user (id INTEGER PRIMARY KEY, first_name STRING, last_name STRING, mobile_number STRING, username STRING NOT NULL UNIQUE, password STRING NOT NULL)";
-    private static final String SQL_ORDER_ITEM_TABLE_QUERY = "create table order_item (id INTEGER PRIMARY KEY, dish_id INTEGER, quantity DOUBLE, user_id INTEGER, datetime TIMESTAMP, portion_size STRING NOT NULL, FOREIGN KEY(dish_id) REFERENCES dish(id), FOREIGN KEY(user_id) REFERENCES user(id))";
-    private static final String SQL_DISH_TABLE_QUERY = "create table dish (id INTEGER PRIMARY KEY, name STRING NOT NULL UNIQUE, price DOUBLE NOT NULL, img_id INT, type STRING NOT NULL, day STRING NOT NULL)";
-    private static final String SQL_ORDER_TABLE_QUERY = "create table `order` (id INTEGER PRIMARY KEY, order_item_id INTEGER, receipt_id INTEGER, FOREIGN KEY(order_item_id) REFERENCES order_item(id), FOREIGN KEY(receipt_id) REFERENCES receipt(id))";
-    private static final String SQL_RECEIPT_TABLE_QUERY = "create table receipt (id INTEGER PRIMARY KEY, total_price DOUBLE, status STRING)";
+    private static final String SQL_USER_TABLE_QUERY = "create table user (id INTEGER PRIMARY KEY AUTOINCREMENT, first_name STRING, last_name STRING, mobile_number STRING, username STRING NOT NULL UNIQUE, password STRING NOT NULL)";
+    private static final String SQL_ORDER_ITEM_TABLE_QUERY = "create table order_item (id INTEGER PRIMARY KEY AUTOINCREMENT, dish_id INTEGER, quantity DOUBLE, user_id INTEGER, datetime TIMESTAMP, portion_size STRING NOT NULL, FOREIGN KEY(dish_id) REFERENCES dish(id), FOREIGN KEY(user_id) REFERENCES user(id))";
+    private static final String SQL_DISH_TABLE_QUERY = "create table dish (id INTEGER PRIMARY KEY AUTOINCREMENT, name STRING NOT NULL UNIQUE, price DOUBLE NOT NULL, img_id INTEGER, type STRING NOT NULL, day STRING NOT NULL)";
+    private static final String SQL_ORDER_TABLE_QUERY = "create table `order` (id INTEGER PRIMARY KEY AUTOINCREMENT, order_item_id INTEGER, receipt_id INTEGER, FOREIGN KEY(order_item_id) REFERENCES order_item(id), FOREIGN KEY(receipt_id) REFERENCES receipt(id))";
+    private static final String SQL_RECEIPT_TABLE_QUERY = "create table receipt (id INTEGER PRIMARY KEY AUTOINCREMENT, receipt_number INTEGER AUTOINCREMENT, total_price DOUBLE, status STRING)";
 
     public JoeydDAO(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -59,7 +59,6 @@ public class JoeydDAO extends SQLiteOpenHelper {
             return;
         }
         ContentValues dish1 = new ContentValues();
-        dish1.put("id", 1);
         dish1.put("name", "Beef Burger");
         dish1.put("price", 30);
         dish1.put("img_id", R.drawable.beef_burger);
@@ -67,7 +66,6 @@ public class JoeydDAO extends SQLiteOpenHelper {
         dish1.put("day", "everyday");
 
         ContentValues dish2 = new ContentValues();
-        dish2.put("id", 2);
         dish2.put("name", "Chicken Burger");
         dish2.put("price", 30);
         dish2.put("img_id", R.drawable.chicken_burger);
@@ -75,7 +73,6 @@ public class JoeydDAO extends SQLiteOpenHelper {
         dish2.put("day", "everyday");
 
         ContentValues dish3 = new ContentValues();
-        dish3.put("id", 3);
         dish3.put("name", "Fried Rice");
         dish3.put("price", 25);
         dish3.put("img_id", R.drawable.fried_rice);
@@ -83,7 +80,6 @@ public class JoeydDAO extends SQLiteOpenHelper {
         dish3.put("day", "everyday");
 
         ContentValues dish4 = new ContentValues();
-        dish4.put("id", 4);
         dish4.put("name", "Beef Stew");
         dish4.put("price", 25);
         dish4.put("img_id", R.drawable.beef_stew);
@@ -91,7 +87,6 @@ public class JoeydDAO extends SQLiteOpenHelper {
         dish4.put("day", "everyday");
 
         ContentValues dish5 = new ContentValues();
-        dish5.put("id", 5);
         dish5.put("name", "Chicken Alfredo");
         dish5.put("price", 20);
         dish5.put("img_id", R.drawable.chicken_alfredo);

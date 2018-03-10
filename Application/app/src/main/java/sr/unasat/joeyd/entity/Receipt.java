@@ -6,11 +6,13 @@ package sr.unasat.joeyd.entity;
 
 public class Receipt {
     private long id;
+    private int receiptNumber;
     private String totalPrice;
     private String status;
 
-    public Receipt(long id, String totalPrice, String status) {
+    public Receipt(long id, int receiptNumber, String totalPrice, String status) {
         this.id = id;
+        this.receiptNumber = receiptNumber;
         this.totalPrice = totalPrice;
         this.status = status;
     }
@@ -21,6 +23,14 @@ public class Receipt {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public int getReceiptNumber() {
+        return receiptNumber;
+    }
+
+    public void setReceiptNumber(int receiptNumber) {
+        this.receiptNumber = receiptNumber;
     }
 
     public String getTotalPrice() {

@@ -20,8 +20,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import sr.unasat.joeyd.adapters.TodaysMenuAdapter;
 import sr.unasat.joeyd.database.JoeydDAO;
@@ -35,6 +45,8 @@ public class MainMenuActivity extends AppCompatActivity
 
     private SQLiteDatabase db;
     private Cursor dishesCursor;
+
+    private List<Dish> specialList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +74,7 @@ public class MainMenuActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //Today's Menu
-        specialAdapter = new TodaysMenuAdapter(this, getSpecialData());
+        // TODO: specialAdapter = new TodaysMenuAdapter(this, getSpecialData());
 
         RecyclerView recyclerView_special = (RecyclerView) findViewById(R.id.special_menu_list);
         recyclerView_special.setAdapter(specialAdapter);
@@ -134,9 +146,33 @@ public class MainMenuActivity extends AppCompatActivity
 
     //Today's Menu Data
     private List<Dish> getSpecialData() {
-        List<Dish> special = new ArrayList<>();
-        special.add(new Dish(1, "dish1", "SRD1,-", R.drawable.joeyds_logoimage, "special", "monday"));
-        return special;
+        int status = 0;
+        // REST API here -> https://unasat-2018.000webhostapp.com/specials.json
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        final String URL = "https://unasat-2018.000webhostapp.com/specials.json";
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        specialList = mapJsonToDishObject(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO: Handle exception here
+            }
+        });
+        // Add the request to the RequestQueue.
+        requestQueue.add(stringRequest);
+
+        // check if status is success
+        if (status != 0){
+            return specialList;
+        } else {
+            return null;
+        }
     }
 
     private List<Dish> getDailyData() {
@@ -157,5 +193,24 @@ public class MainMenuActivity extends AppCompatActivity
         }
 
         return null;
+    }
+
+    private List<Dish> mapJsonToDishObject(String jsonArray) {
+        ObjectMapper mapper = new ObjectMapper();
+        List<Dish> specialsList = new ArrayList<>();
+        List<Map<String, ?>> specialsArray = null;
+        Dish special = null;
+
+        try {
+            specialsArray = mapper.readValue(jsonArray, List.class);
+            for (Map<String, ?> map : specialsArray) {
+                special = new Dish((Integer) map.get("id"), (String) map.get("name"), (String) map.get("price"), (Integer) map.get("img_id"), (String) map.get("type"), (String) map.get("day"));
+                specialsList.add(special);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Er is wat fout gegaan bij het parsen van de json data");
+        }
+        return specialsList;
     }
 }

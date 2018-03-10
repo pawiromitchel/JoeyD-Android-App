@@ -71,9 +71,8 @@ public class TodaysMenuAdapter extends RecyclerView.Adapter<TodaysMenuAdapter.Vi
         public void onClick(View view) {
             Dish dish = data.get(getAdapterPosition()); //Position for passing objext data
             Intent intent = new Intent(context, DishDescriptionActivity.class);
-            //intent.putExtra("1", dish);
             Bundle bundle = new Bundle();
-            bundle.putSerializable("1", dish);
+            bundle.putSerializable("dishObject", dish);
             intent.putExtras(bundle);
             context.startActivity(intent);
         }

@@ -10,7 +10,6 @@ public class OrderItem {
     private int quantity;
     private User user;
     private String datetime;
-    private String portion_size;
 
     public OrderItem(long id, Dish dish, int quantity, User user, String datetime, String portion_size) {
         this.id = id;
@@ -18,7 +17,6 @@ public class OrderItem {
         this.quantity = quantity;
         this.user = user;
         this.datetime = datetime;
-        this.portion_size = portion_size;
     }
 
     public long getId() {
@@ -59,13 +57,5 @@ public class OrderItem {
 
     public void setDatetime(String datetime) {
         this.datetime = datetime;
-    }
-
-    public String getPortion_size() {
-        return portion_size;
-    }
-
-    public void setPortion_size(String portion_size) {
-        this.portion_size = portion_size;
     }
 }

@@ -24,7 +24,11 @@ public class OrderActivity extends AppCompatActivity {
     private Spinner quantitySpinner;
 
     private SQLiteDatabase db;
+    private Cursor getUserPendingReceipt;
     private Cursor receiptCursor;
+
+    // TODO: get User Object from IntentExtra
+    private int UserID = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,25 +43,41 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     public void addToOrder(View view) {
-        int quantity = (Integer) quantitySpinner.getSelectedItem();
-
-        // TODO: Make new receipt
+        System.out.println("test");
+//        int quantity = (Integer) quantitySpinner.getSelectedItem();
+//
+//        // TODO: Make new receipt
         SQLiteOpenHelper joeyDDatabaseHelper = new JoeydDAO(this);
         db = joeyDDatabaseHelper.getReadableDatabase();
+//
+//        // create an empty receipt
+//        ContentValues receipt = new ContentValues();
+        getUserPendingReceipt = db.rawQuery(String.format("select id from receipt where user_id = %s", UserID), null);
+        int userReceipt = 0;
+        if (getUserPendingReceipt.moveToFirst()) {
+            userReceipt = getUserPendingReceipt.getInt(0);
+        }
 
-        // create an empty receipt
-        
+        if(userReceipt == 0){
+            
+        }
+        db.close();
+
+        // check if user has pending receipt
+        // if not -> create a new receipt
+        // if exist -> get the receipt id and work with that
+
+        // create order tussen table order_item + receipt_id
 
         // insert into order_item
-        ContentValues orderItem = new ContentValues();
-        orderItem.put("dish_id", dish.getId());
-        orderItem.put("quantity", quantity);
-        orderItem.put("user_id", 1);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date();
-        orderItem.put("datetime", dateFormat.format(date));
-        long rowid = db.insert("order_item", null, orderItem);
+//        ContentValues orderItem = new ContentValues();
+//        orderItem.put("dish_id", dish.getId());
+//        orderItem.put("quantity", quantity);
+//        orderItem.put("user_id", 1);
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        Date date = new Date();
+//        orderItem.put("datetime", dateFormat.format(date));
+//        long rowid = db.insert("order_item", null, orderItem);
 
-        db.close();
     }
 }

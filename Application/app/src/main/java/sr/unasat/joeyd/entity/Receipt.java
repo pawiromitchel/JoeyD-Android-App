@@ -7,12 +7,14 @@ package sr.unasat.joeyd.entity;
 public class Receipt {
     private long id;
     private int receiptNumber;
+    private User user;
     private String totalPrice;
     private String status;
 
-    public Receipt(long id, int receiptNumber, String totalPrice, String status) {
+    public Receipt(long id, int receiptNumber, User user, String totalPrice, String status) {
         this.id = id;
         this.receiptNumber = receiptNumber;
+        this.user = user;
         this.totalPrice = totalPrice;
         this.status = status;
     }
@@ -31,6 +33,14 @@ public class Receipt {
 
     public void setReceiptNumber(int receiptNumber) {
         this.receiptNumber = receiptNumber;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getTotalPrice() {

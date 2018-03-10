@@ -27,11 +27,11 @@ public class JoeydDAO extends SQLiteOpenHelper {
     public static final String USER_USERNAME = "username";
     public static final String USER_PASSWORD = "password";
 
-    private static final String SQL_USER_TABLE_QUERY = "create table user (id INTEGER PRIMARY KEY AUTOINCREMENT, first_name STRING, last_name STRING, mobile_number STRING, username STRING NOT NULL UNIQUE, password STRING NOT NULL)";
-    private static final String SQL_ORDER_ITEM_TABLE_QUERY = "create table order_item (id INTEGER PRIMARY KEY AUTOINCREMENT, dish_id INTEGER, quantity DOUBLE, user_id INTEGER, datetime TIMESTAMP, portion_size STRING NOT NULL, FOREIGN KEY(dish_id) REFERENCES dish(id), FOREIGN KEY(user_id) REFERENCES user(id))";
-    private static final String SQL_DISH_TABLE_QUERY = "create table dish (id INTEGER PRIMARY KEY AUTOINCREMENT, name STRING NOT NULL UNIQUE, price DOUBLE NOT NULL, img_id INTEGER, type STRING NOT NULL, day STRING NOT NULL)";
-    private static final String SQL_ORDER_TABLE_QUERY = "create table `order` (id INTEGER PRIMARY KEY AUTOINCREMENT, order_item_id INTEGER, receipt_id INTEGER, FOREIGN KEY(order_item_id) REFERENCES order_item(id), FOREIGN KEY(receipt_id) REFERENCES receipt(id))";
-    private static final String SQL_RECEIPT_TABLE_QUERY = "create table receipt (id INTEGER PRIMARY KEY AUTOINCREMENT, receipt_number INTEGER AUTOINCREMENT, total_price DOUBLE, status STRING)";
+    private static final String SQL_USER_TABLE_QUERY = "create table user (id INTEGER PRIMARY KEY, first_name STRING, last_name STRING, mobile_number STRING, username STRING NOT NULL UNIQUE, password STRING NOT NULL)";
+    private static final String SQL_ORDER_ITEM_TABLE_QUERY = "create table order_item (id INTEGER PRIMARY KEY, dish_id INTEGER, quantity DOUBLE, user_id INTEGER, datetime TIMESTAMP, portion_size STRING NOT NULL, FOREIGN KEY(dish_id) REFERENCES dish(id), FOREIGN KEY(user_id) REFERENCES user(id))";
+    private static final String SQL_DISH_TABLE_QUERY = "create table dish (id INTEGER PRIMARY KEY, name STRING NOT NULL UNIQUE, price DOUBLE NOT NULL, img_id INTEGER, type STRING NOT NULL, day STRING NOT NULL)";
+    private static final String SQL_ORDER_TABLE_QUERY = "create table `order` (id INTEGER PRIMARY KEY, order_item_id INTEGER, receipt_id INTEGER, FOREIGN KEY(order_item_id) REFERENCES order_item(id), FOREIGN KEY(receipt_id) REFERENCES receipt(id))";
+    private static final String SQL_RECEIPT_TABLE_QUERY = "create table receipt (id INTEGER PRIMARY KEY, user_id INTEGER, receipt_number INTEGER, total_price DOUBLE, status STRING, FOREIGN KEY(user_id) REFERENCES user(id))";
 
     public JoeydDAO(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

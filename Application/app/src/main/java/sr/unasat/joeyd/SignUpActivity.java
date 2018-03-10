@@ -8,11 +8,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import sr.unasat.joeyd.database.JoeydDAO;
 import sr.unasat.joeyd.entity.User;
 
 public class SignUpActivity extends AppCompatActivity {
 
     private static View view;
+    private JoeydDAO joeydDAO;
     private static EditText firstName, lastName, mobileNumber, userName,
             password, confirmPassowrd;
     private static Button signUpBtn_frag;
@@ -21,13 +23,13 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        EditText firstName = (EditText) findViewById(R.id.firstName);
-        EditText lastName = (EditText) findViewById(R.id.lastName);
-        EditText mobileNumber = (EditText) findViewById(R.id.mobileNumber);
-        EditText userName = (EditText) findViewById(R.id.username);
-        EditText password = (EditText) findViewById(R.id.password);
-        EditText confirmPassowrd = (EditText) findViewById(R.id.confirmPassword);
-        Button signUpBtn_frag = (Button) findViewById(R.id.fragment_signUp);
+        firstName = (EditText) findViewById(R.id.firstName);
+        lastName = (EditText) findViewById(R.id.lastName);
+        mobileNumber = (EditText) findViewById(R.id.mobileNumber);
+        userName = (EditText) findViewById(R.id.username);
+        password = (EditText) findViewById(R.id.password);
+        confirmPassowrd = (EditText) findViewById(R.id.confirmPassword);
+        signUpBtn_frag = (Button) findViewById(R.id.fragment_signUp);
     }
 
    /* private View initViews(){

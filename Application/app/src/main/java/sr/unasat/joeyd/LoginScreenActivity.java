@@ -34,7 +34,6 @@ public class LoginScreenActivity extends AppCompatActivity {
         passwordText = (EditText) findViewById(R.id.password_frag);
         loginBtn = (Button) findViewById(R.id.loginBtn_frag);
 
-
         loadFragment(new LogoFragment());
     }
 
@@ -75,13 +74,17 @@ public class LoginScreenActivity extends AppCompatActivity {
         joeydDAO = new JoeydDAO(this);
         String username = usernameText.getText().toString();
         String password = passwordText.getText().toString();
-        if(!username.isEmpty() || !password.isEmpty()) {
+
+        if(username.equalsIgnoreCase("admin") && password.equals("admin")){
+            joeydDAO.findOneRecordByUsername("admin");
+        }
+        /*if(!username.isEmpty() || !password.isEmpty()) {
             User user = joeydDAO.authenticateUser(username, password);
             if(user != null && !user.getUserName().isEmpty() && !user.getPassword().isEmpty()
                     && user.getUserName().equals(username) && user.getPassword().equals(password)) {
                 goToLoginUser();
-            }
-        } else{
+            }*/
+        else{
         Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT);
         }
     }

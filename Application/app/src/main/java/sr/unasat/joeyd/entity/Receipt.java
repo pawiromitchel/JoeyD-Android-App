@@ -58,4 +58,9 @@ public class Receipt {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Receiptnumber: " + receiptNumber + "\n" + "Status: " + getStatus();
+    }
 }

@@ -59,9 +59,16 @@ public class OrderActivity extends AppCompatActivity {
 
         // no pending receipt found
         if(userReceipt == 0){
+
+            Integer nextInt = 1;
+            Cursor checkInt = db.rawQuery("select id from receipt order by id desc limit 1", null);
+            if (checkInt.moveToFirst()) {
+                nextInt = (checkInt.getInt(0) + 1);
+            }
+
             // create new empty receipt
             ContentValues newReceipt = new ContentValues();
-            newReceipt.put("receipt_number", Math.random());
+            newReceipt.put("receipt_number", nextInt);
             newReceipt.put("user_id", UserID);
             newReceipt.put("total_price", 0);
             newReceipt.put("status", "new");
@@ -83,6 +90,7 @@ public class OrderActivity extends AppCompatActivity {
             orderTableValues.put("order_item_id", orderItemID);
             orderTableValues.put("receipt_id", newUserReceiptID);
             long orderTableID = db.insert("`order`", null, orderTableValues);
+            db.close();
 
             Toast toast = Toast.makeText(this, "Successfully added " + dish.getName() + " to your orders", Toast.LENGTH_SHORT);
             toast.show();
@@ -111,6 +119,8 @@ public class OrderActivity extends AppCompatActivity {
 
             Toast toast = Toast.makeText(this, "Successfully added " + dish.getName() + " to your orders", Toast.LENGTH_SHORT);
             toast.show();
+
+            db.close();
 
             // navigate user to Main Menu
             Intent intent = new Intent(OrderActivity.this, MainMenuActivity.class);

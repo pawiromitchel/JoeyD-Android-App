@@ -11,7 +11,7 @@ public class OrderItem {
     private User user;
     private String datetime;
 
-    public OrderItem(long id, Dish dish, int quantity, User user, String datetime, String portion_size) {
+    public OrderItem(long id, Dish dish, int quantity, User user, String datetime) {
         this.id = id;
         this.dish = dish;
         this.quantity = quantity;
@@ -61,6 +61,7 @@ public class OrderItem {
 
     @Override
     public String toString() {
-        return dish.getName() + " " + quantity + "x";
+        return dish.getName() + " " + quantity + "x" + "\n"
+                + quantity + " x " + dish.getPrice() + " = SRD" + (quantity * Integer.parseInt(dish.getPrice()));
     }
 }

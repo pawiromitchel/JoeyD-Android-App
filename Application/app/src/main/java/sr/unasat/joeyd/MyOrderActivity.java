@@ -1,6 +1,7 @@
 package sr.unasat.joeyd;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -57,7 +58,7 @@ public class MyOrderActivity extends AppCompatActivity {
                 myOrderUser = new User(getMyOrdersUser.getInt(0), getMyOrdersUser.getString(1), getMyOrdersUser.getString(2), getMyOrdersUser.getString(3), getMyOrdersUser.getString(4), getMyOrdersUser.getString(5));
             }
 
-            myOrdersList.add(new OrderItem(getMyOrders.getInt(1), myOrderDish, getMyOrders.getInt(5), myOrderUser, getMyOrders.getString(7), getMyOrders.getString(8)));
+            myOrdersList.add(new OrderItem(getMyOrders.getInt(1), myOrderDish, getMyOrders.getInt(5), myOrderUser, getMyOrders.getString(7)));
         }
 
         // convert List to ArrayAdapter
@@ -82,5 +83,9 @@ public class MyOrderActivity extends AppCompatActivity {
             System.out.println(updateReceipt.getInt(0));
         }
         Toast.makeText(this, "Your order has been placed", Toast.LENGTH_LONG).show();
+
+        // navigate user to the main screen again
+        Intent intent = new Intent(MyOrderActivity.this, MainMenuActivity.class);
+        startActivity(intent);
     }
 }

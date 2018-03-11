@@ -75,12 +75,7 @@ public class MainMenuActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //Today's Menu
-        // TODO: specialAdapter = new TodaysMenuAdapter(this, getSpecialData());
-
-        RecyclerView recyclerView_special = (RecyclerView) findViewById(R.id.special_menu_list);
-        recyclerView_special.setAdapter(specialAdapter);
-        recyclerView_special.setLayoutManager(new LinearLayoutManager(this));
+        getSpecialDishesFromRestApi();
 
         dailyAdapter = new TodaysMenuAdapter(this, getDailyData());
 
@@ -195,6 +190,35 @@ public class MainMenuActivity extends AppCompatActivity
         }
 
         return null;
+    }
+
+    private void getSpecialDishesFromRestApi(){
+        // REST API here -> https://unasat-2018.000webhostapp.com/specials.json
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        final String URL = "https://unasat-2018.000webhostapp.com/specials.json";
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        specialList = mapJsonToDishObject(response);
+
+                        //Today's Menu
+                        specialAdapter = new TodaysMenuAdapter(MainMenuActivity.this, specialList);
+
+                        RecyclerView recyclerView_special = (RecyclerView) findViewById(R.id.special_menu_list);
+                        recyclerView_special.setAdapter(specialAdapter);
+                        recyclerView_special.setLayoutManager(new LinearLayoutManager(MainMenuActivity.this));
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO: Handle exception here
+            }
+        });
+        // Add the request to the RequestQueue.
+        requestQueue.add(stringRequest);
     }
 
     private List<Dish> mapJsonToDishObject(String jsonArray) {

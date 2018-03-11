@@ -1,6 +1,10 @@
 package sr.unasat.joeyd;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +22,10 @@ public class SignUpActivity extends AppCompatActivity {
     private static EditText firstName, lastName, mobileNumber, userName,
             password, confirmPassowrd;
     private static Button signUpBtn_frag;
+
+    private SQLiteDatabase db;
+    private Cursor insertCursor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +52,7 @@ public class SignUpActivity extends AppCompatActivity {
     }*/
 
     //Check validation
-    private User checkValidation(User user){
+    private long signUpUser(User user){
         user = new User();
         String getFirstName = firstName.getText().toString();
         String getLastName = lastName.getText().toString();
@@ -52,6 +60,18 @@ public class SignUpActivity extends AppCompatActivity {
         String getUserName = userName.getText().toString();
         String getPassword = password.getText().toString();
         String getConfirmPassword = confirmPassowrd.getText().toString();
+
+        SQLiteOpenHelper joeyDDatabaseHelper = new JoeydDAO(this);
+        db = joeyDDatabaseHelper.getReadableDatabase();
+        ContentValues newUser = new ContentValues();
+        newUser.put("firstname", getFirstName);
+        newUser.put("lastname", getLastName);
+        newUser.put("mobilenumber", getMobileNumber);
+        newUser.put("username", getUserName);
+        newUser.put("password", getPassword);
+
+        long newUserID = db.insert("user", null, newUser);
+
 
         // Check if all strings are null or not
         if (getFirstName.equals("") || getFirstName.length() == 0
@@ -61,11 +81,14 @@ public class SignUpActivity extends AppCompatActivity {
                 || getPassword.equals("") || getPassword.length() == 0
                 || getConfirmPassword.equals("")
                 || getConfirmPassword.length() == 0);
-        return user;
+
+        db.close();
+        System.out.println(newUserID);
+        return newUserID;
     }
 
     public void signUp(View view) {
-        checkValidation(new User());
+        signUpUser(new User());
         signUpBtn_frag.setOnClickListener((View.OnClickListener) this);
         Intent intent = new Intent(SignUpActivity.this, LoginScreenActivity.class);
         Toast.makeText(this, "You have succesfully signed up", Toast.LENGTH_SHORT).show();

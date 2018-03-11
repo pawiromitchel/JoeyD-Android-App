@@ -3,10 +3,10 @@ package sr.unasat.joeyd;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.database.DatabaseUtilsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,18 +22,18 @@ import sr.unasat.joeyd.fragments.LogoFragment;
 public class LoginScreenActivity extends AppCompatActivity {
 
     private JoeydDAO joeydDAO;
-    private EditText usernameText, passwordText;
+    private EditText username, password;
     private Button loginBtn;
-    private Cursor cursor;
+    private SQLiteDatabase db;
+    private Cursor getUserCreds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
-        usernameText = (EditText) findViewById(R.id.username_frag);
-        passwordText = (EditText) findViewById(R.id.password_frag);
-        loginBtn = (Button) findViewById(R.id.loginBtn_frag);
 
+        username = (EditText) findViewById(R.id.username_frag);
+        password = (EditText) findViewById(R.id.password_frag);
         loadFragment(new LogoFragment());
     }
 
@@ -41,7 +41,7 @@ public class LoginScreenActivity extends AppCompatActivity {
         if (view == findViewById(R.id.loginBtn_main)) {
             loadFragment(new LoginFragment());
         }
-        if(view == findViewById(R.id.loginBtn_frag)){
+        if (view == findViewById(R.id.loginBtn_frag)) {
             //goToLoginUser(view);
             loginBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -64,28 +64,36 @@ public class LoginScreenActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void goToLoginUser(){
+    public void goToLoginUser() {
         Intent intent = new Intent(LoginScreenActivity.this, MainMenuActivity.class);
         Toast.makeText(this, "You are signed in", Toast.LENGTH_SHORT).show();
         startActivity(intent);
     }
 
-    public void loginUser(View view){
-        joeydDAO = new JoeydDAO(this);
-        String username = usernameText.getText().toString();
-        String password = passwordText.getText().toString();
+    public void loginUser(View view) {
 
-        if(username.equalsIgnoreCase("admin") && password.equals("admin")){
-            joeydDAO.findOneRecordByUsername("admin");
-        }
-        /*if(!username.isEmpty() || !password.isEmpty()) {
-            User user = joeydDAO.authenticateUser(username, password);
-            if(user != null && !user.getUserName().isEmpty() && !user.getPassword().isEmpty()
-                    && user.getUserName().equals(username) && user.getPassword().equals(password)) {
+        view = getSupportFragmentManager().findFragmentById(R.id.frameContainer).getView();
+        username = view.findViewById(R.id.username_frag);
+        password = view.findViewById(R.id.password_frag);
+
+        String userInput = username.getText().toString();
+        String passwordInput = password.getText().toString();
+
+        joeydDAO = new JoeydDAO(this);
+        SQLiteOpenHelper joeyDDatabaseHelper = new JoeydDAO(this);
+        db = joeyDDatabaseHelper.getReadableDatabase();
+
+        getUserCreds = db.rawQuery(String.format("select * from user where 'username' = '%s' AND 'password' = '%s'", userInput, passwordInput),
+                null);
+
+        if (!userInput.isEmpty() || !passwordInput.isEmpty()) {
+            User user = joeydDAO.authenticateUser(userInput, passwordInput);
+            if (user != null && !user.getUserName().isEmpty() && !user.getPassword().isEmpty()
+                    && user.getUserName().equals(userInput) && user.getPassword().equals(passwordInput)) {
                 goToLoginUser();
-            }*/
-        else{
-        Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT);
+            } else {
+                Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

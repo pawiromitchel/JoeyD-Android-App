@@ -60,7 +60,7 @@ public class MyOrderActivity extends AppCompatActivity {
                 myOrderUser = new User(getMyOrdersUser.getInt(0), getMyOrdersUser.getString(1), getMyOrdersUser.getString(2), getMyOrdersUser.getString(3), getMyOrdersUser.getString(4), getMyOrdersUser.getString(5));
             }
 
-            myOrdersList.add(new OrderItem(getMyOrders.getInt(1), myOrderDish, getMyOrders.getInt(5), myOrderUser, getMyOrders.getString(7), getMyOrders.getString(8)));
+            myOrdersList.add(new OrderItem(getMyOrders.getInt(1), myOrderDish, getMyOrders.getInt(5), myOrderUser, getMyOrders.getString(7)));
 
         }
 

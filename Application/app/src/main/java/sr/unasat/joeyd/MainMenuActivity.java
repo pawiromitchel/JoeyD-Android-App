@@ -133,6 +133,7 @@ public class MainMenuActivity extends AppCompatActivity
         } else if (id == R.id.nav_About) {
 //            Intent pendingOrder = new Intent(this, PendingOrderActivity.class);
 //            startActivity(pendingOrder);
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

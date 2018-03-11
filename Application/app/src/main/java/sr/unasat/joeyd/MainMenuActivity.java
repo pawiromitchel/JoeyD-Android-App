@@ -1,5 +1,6 @@
 package sr.unasat.joeyd;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -59,8 +60,9 @@ public class MainMenuActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                // navigate user to his orders
+                Intent intent = new Intent(MainMenuActivity.this, MyOrderActivity.class);
+                startActivity(intent);
             }
         });
 

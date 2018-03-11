@@ -42,7 +42,7 @@ public class DishDescriptionActivity extends AppCompatActivity {
         dish_img.setImageDrawable(this.getDrawable(dish.getImg_id()));
     }
 
-    public void goToOder(View view) {
+    public void goToOrder(View view) {
         Intent intent = new Intent(DishDescriptionActivity.this, OrderActivity.class);
         intent.putExtra("dishObject", dish);
         startActivity(intent);

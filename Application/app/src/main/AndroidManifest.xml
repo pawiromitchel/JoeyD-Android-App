@@ -29,7 +29,8 @@
         <activity android:name=".SignUpActivity" />
         <activity android:name=".TodaysMenuActivity" />
         <activity android:name=".DishDescriptionActivity" />
-        <activity android:name=".OrderActivity"></activity>
+        <activity android:name=".OrderActivity" />
+        <activity android:name=".MyOrderActivity"></activity>
     </application>
 
 </manifest>

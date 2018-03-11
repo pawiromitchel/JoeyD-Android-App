@@ -46,7 +46,7 @@ public class OrderActivity extends AppCompatActivity {
         SQLiteOpenHelper joeyDDatabaseHelper = new JoeydDAO(this);
         db = joeyDDatabaseHelper.getReadableDatabase();
 
-        getUserPendingReceipt = db.rawQuery(String.format("select id from receipt where user_id = %s AND status = 'pending'", UserID), null);
+        getUserPendingReceipt = db.rawQuery(String.format("select id from receipt where user_id = %s AND status = 'new'", UserID), null);
         int userReceipt = 0;
         if (getUserPendingReceipt.moveToFirst()) {
             userReceipt = getUserPendingReceipt.getInt(0);
@@ -59,7 +59,7 @@ public class OrderActivity extends AppCompatActivity {
             newReceipt.put("receipt_number", Math.random());
             newReceipt.put("user_id", UserID);
             newReceipt.put("total_price", 0);
-            newReceipt.put("status", "pending");
+            newReceipt.put("status", "new");
             long newUserReceiptID = db.insert("receipt", null, newReceipt);
 
             // insert into order_item
@@ -67,7 +67,7 @@ public class OrderActivity extends AppCompatActivity {
             ContentValues orderItem = new ContentValues();
             orderItem.put("dish_id", dish.getId());
             orderItem.put("quantity", quantity);
-            orderItem.put("user_id", 1);
+            orderItem.put("user_id", UserID);
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date();
             orderItem.put("datetime", dateFormat.format(date));

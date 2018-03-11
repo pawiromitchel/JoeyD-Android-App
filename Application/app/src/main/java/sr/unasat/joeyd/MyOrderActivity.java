@@ -2,9 +2,11 @@ package sr.unasat.joeyd;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.preference.PreferenceManager;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,7 +34,7 @@ public class MyOrderActivity extends AppCompatActivity {
     private ListView myOrdersListView;
     private ArrayAdapter<OrderItem> adapter;
 
-    private int UserID = 1;
+    private long UserID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,9 @@ public class MyOrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_order);
 
         myOrdersListView = (ListView) findViewById(R.id.myOrdersListView);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        UserID = preferences.getLong("LoggedUserID", 0);
 
         SQLiteOpenHelper joeyDDatabaseHelper = new JoeydDAO(this);
         db = joeyDDatabaseHelper.getReadableDatabase();

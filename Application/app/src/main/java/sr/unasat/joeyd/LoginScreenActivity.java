@@ -1,9 +1,11 @@
 package sr.unasat.joeyd;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -90,6 +92,13 @@ public class LoginScreenActivity extends AppCompatActivity {
             User user = joeydDAO.authenticateUser(userInput, passwordInput);
             if (user != null && !user.getUserName().isEmpty() && !user.getPassword().isEmpty()
                     && user.getUserName().equals(userInput) && user.getPassword().equals(passwordInput)) {
+
+                // store the UserID into the SharedPreferneces
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putLong("LoggedUserID", user.getId());
+                editor.apply();
+
                 goToLoginUser();
             } else {
                 Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();

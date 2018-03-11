@@ -2,9 +2,11 @@ package sr.unasat.joeyd;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -27,8 +29,8 @@ public class OrderActivity extends AppCompatActivity {
     private SQLiteDatabase db;
     private Cursor getUserPendingReceipt;
 
-    // TODO: get User Object from IntentExtra
-    private int UserID = 1;
+    // get userID from loggedUserStorage
+    private long UserID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,9 @@ public class OrderActivity extends AppCompatActivity {
 
         dish = (Dish)getIntent().getSerializableExtra("dishObject");
         dishNameTextView.setText(dish.getName());
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        UserID = preferences.getLong("LoggedUserID", 0);
     }
 
     public void addToOrder(View view) {

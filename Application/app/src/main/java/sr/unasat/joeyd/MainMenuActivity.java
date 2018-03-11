@@ -30,7 +30,9 @@ import com.android.volley.toolbox.Volley;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -227,11 +229,17 @@ public class MainMenuActivity extends AppCompatActivity
         List<Map<String, ?>> specialsArray = null;
         Dish special = null;
 
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+        Date d = new Date();
+        String dayOfTheWeek = sdf.format(d);
+
         try {
             specialsArray = mapper.readValue(jsonArray, List.class);
             for (Map<String, ?> map : specialsArray) {
-                special = new Dish((Integer) map.get("id"), (String) map.get("name"), (String) map.get("price"), (Integer) map.get("img_id"), (String) map.get("type"), (String) map.get("day"));
-                specialsList.add(special);
+                if(map.get("day").equals(dayOfTheWeek.toLowerCase())){
+                    special = new Dish((Integer) map.get("id"), (String) map.get("name"), (String) map.get("price"), (Integer) map.get("img_id"), (String) map.get("type"), (String) map.get("day"));
+                    specialsList.add(special);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

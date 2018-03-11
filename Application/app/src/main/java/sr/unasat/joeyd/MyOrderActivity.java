@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -44,21 +46,22 @@ public class MyOrderActivity extends AppCompatActivity {
 
         List<OrderItem> myOrdersList = new ArrayList<>();
         getMyOrders = db.rawQuery(String.format("select * from `order` AS o INNER JOIN order_item as oi on o.order_item_id = oi.id INNER JOIN receipt as r on o.receipt_id = r.id WHERE r.user_id = %s AND r.status = 'new'", UserID), null);
-        while(getMyOrders.moveToNext()){
+        while (getMyOrders.moveToNext()) {
 
             Dish myOrderDish = null;
             getMyOrdersDish = db.rawQuery(String.format("select * from dish where id = %s", getMyOrders.getInt(4)), null);
-            if(getMyOrdersDish.moveToFirst()){
+            if (getMyOrdersDish.moveToFirst()) {
                 myOrderDish = new Dish(getMyOrdersDish.getInt(0), getMyOrdersDish.getString(1), getMyOrdersDish.getString(2), getMyOrdersDish.getInt(3), getMyOrdersDish.getString(4), getMyOrdersDish.getString(5));
             }
 
             User myOrderUser = null;
             getMyOrdersUser = db.rawQuery(String.format("select * from user where id = %s", UserID), null);
-            if(getMyOrdersUser.moveToFirst()){
+            if (getMyOrdersUser.moveToFirst()) {
                 myOrderUser = new User(getMyOrdersUser.getInt(0), getMyOrdersUser.getString(1), getMyOrdersUser.getString(2), getMyOrdersUser.getString(3), getMyOrdersUser.getString(4), getMyOrdersUser.getString(5));
             }
 
-            myOrdersList.add(new OrderItem(getMyOrders.getInt(1), myOrderDish, getMyOrders.getInt(5), myOrderUser, getMyOrders.getString(7)));
+            myOrdersList.add(new OrderItem(getMyOrders.getInt(1), myOrderDish, getMyOrders.getInt(5), myOrderUser, getMyOrders.getString(7), getMyOrders.getString(8)));
+
         }
 
         // convert List to ArrayAdapter
@@ -70,22 +73,55 @@ public class MyOrderActivity extends AppCompatActivity {
         db.close();
     }
 
-    public void onPlaceOrder(View view) {
-        SQLiteOpenHelper joeyDDatabaseHelper = new JoeydDAO(this);
-        db = joeyDDatabaseHelper.getReadableDatabase();
+//    public void onPlaceOrder(View view) {
+//        SQLiteOpenHelper joeyDDatabaseHelper = new JoeydDAO(this);
+//        db = joeyDDatabaseHelper.getReadableDatabase();
+//
+//        ContentValues receiptValueToUpdate = new ContentValues();
+//        receiptValueToUpdate.put("status", "ordered");
+//
+//        Cursor updateReceipt;
+//        updateReceipt = db.rawQuery(String.format("update receipt set status = 'ordered' where user_id = %s", UserID), null);
+//        if(updateReceipt.moveToFirst()){
+//            System.out.println(updateReceipt.getInt(0));
+//        }
+//        Toast.makeText(this, "Your order has been placed", Toast.LENGTH_LONG).show();
+//    }
 
-        ContentValues receiptValueToUpdate = new ContentValues();
-        receiptValueToUpdate.put("status", "ordered");
+    public void on_place_order (View view) {
+        new onPlaceOrder().execute();
+    }
 
-        Cursor updateReceipt;
-        updateReceipt = db.rawQuery(String.format("update receipt set status = 'ordered' where user_id = %s", UserID), null);
-        if(updateReceipt.moveToFirst()){
-            System.out.println(updateReceipt.getInt(0));
+    private class onPlaceOrder extends AsyncTask<Integer, Void, String> {
+
+        protected void onPreExecute() {
+            Toast.makeText(MyOrderActivity.this, "Your order is being placed placed", Toast.LENGTH_LONG).show();
         }
-        Toast.makeText(this, "Your order has been placed", Toast.LENGTH_LONG).show();
 
-        // navigate user to the main screen again
-        Intent intent = new Intent(MyOrderActivity.this, MainMenuActivity.class);
-        startActivity(intent);
+        @Override
+        protected String doInBackground(Integer... integers) {
+            SQLiteOpenHelper joeyDDatabaseHelper = new JoeydDAO(MyOrderActivity.this);
+            db = joeyDDatabaseHelper.getReadableDatabase();
+
+            ContentValues receiptVaueToUpdate = new ContentValues();
+            receiptVaueToUpdate.put("status", "ordered");
+
+            Cursor updateReceipt;
+            updateReceipt = db.rawQuery(String.format("update receipt set status = 'ordered' where user_id = %s", UserID), null);
+            if (updateReceipt.moveToFirst()) {
+                System.out.println(updateReceipt.getInt(0));
+            }
+
+            return null;
+        }
+
+
+
+        protected void onPostExecute(Boolean succes) {
+            if (!succes){
+                Toast.makeText(MyOrderActivity.this, "Your order has been placed", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }
+

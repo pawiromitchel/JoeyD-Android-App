@@ -20,8 +20,9 @@
         android:layout_height="wrap_content" />
 
     <Button
+        android:id="@+id/placeOrder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onPlaceOrder"
+        android:onClick="on_place_order"
         android:text="Place order"/>
 </LinearLayout>

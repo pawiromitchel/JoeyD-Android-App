@@ -19,6 +19,8 @@ import sr.unasat.joeyd.entity.Dish;
 
 public class DishDescriptionActivity extends AppCompatActivity {
 
+    //TODO: place description in activity with price and possibly order immediately
+
     private Dish dish;
     private Button order_button;
     private TextView dish_desc;

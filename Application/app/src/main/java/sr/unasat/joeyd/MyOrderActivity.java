@@ -119,3 +119,4 @@ public class MyOrderActivity extends AppCompatActivity {
     }
 }
 
+///TODO: total order price of receipt

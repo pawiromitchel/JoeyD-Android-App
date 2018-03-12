@@ -30,6 +30,7 @@ import sr.unasat.joeyd.entity.Dish;
  * a service on a separate handler thread.
  * <p>
  * TODO: Customize class - update intent actions and extra parameters.
+ * TODO: service needs to refresh after e.g 3hours
  */
 public class SyncSpecialsWithDatabaseService extends IntentService {
 

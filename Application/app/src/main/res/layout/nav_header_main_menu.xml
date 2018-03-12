@@ -33,4 +33,6 @@
         android:layout_height="wrap_content"
         android:text="android.studio@android.com" />
 
+    <!--TODO my account and about page needs to be up and running-->
+
 </LinearLayout>

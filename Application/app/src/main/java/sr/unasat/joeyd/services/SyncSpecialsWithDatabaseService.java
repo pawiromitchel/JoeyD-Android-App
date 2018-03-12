@@ -80,6 +80,7 @@ public class SyncSpecialsWithDatabaseService extends IntentService {
 
                 if(checkIfSpecialIsAlreadyInserted.getCount() == 0){
                     ContentValues special = new ContentValues();
+                    special.put("id", (Integer) map.get("id"));
                     special.put("name", (String) map.get("name"));
                     special.put("price", (String) map.get("price"));
                     special.put("img_id", (Integer) map.get("img_id"));
@@ -90,7 +91,22 @@ public class SyncSpecialsWithDatabaseService extends IntentService {
                     Log.i("Inserted Special Dish: ", "ID: " + insertedSpecialDish);
 
                 } else {
+
+                    db.delete("dish", "id = ?", new String[] { String.valueOf(map.get("id"))});
+
                     Log.i("Special dish found", "name: " + (String) map.get("name"));
+
+                    ContentValues special = new ContentValues();
+                    special.put("id", (Integer) map.get("id"));
+                    special.put("name", (String) map.get("name"));
+                    special.put("price", (String) map.get("price"));
+                    special.put("img_id", (Integer) map.get("img_id"));
+                    special.put("type", (String) map.get("type"));
+                    special.put("day", (String) map.get("day"));
+
+                    long insertedSpecialDish = db.insert("dish", null, special);
+
+                    Log.i("Inserted Special Dish: ", "ID: " + insertedSpecialDish);
                 }
             }
             db.close();

@@ -59,9 +59,15 @@ public class OrderItem {
         this.datetime = datetime;
     }
 
+    public double calculateTotal(){
+        double total = quantity * Integer.parseInt(dish.getPrice());
+        return total;
+    }
+
     @Override
     public String toString() {
-        return dish.getName() + " " + quantity + "x" + "\n"
-                + quantity + " x " + dish.getPrice() + " = SRD" + (quantity * Integer.parseInt(dish.getPrice()));
+        return dish.getName() + "\n"
+                + "Quantity: " + quantity + "\n"
+                + "Total: SRD " + calculateTotal() + "\n";
     }
 }

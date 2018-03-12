@@ -44,7 +44,7 @@ public class TodaysMenuAdapter extends RecyclerView.Adapter<TodaysMenuAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
         Dish current = data.get(position);
         holder.dishName.setText(current.getName());
-        holder.dishPrice.setText(current.getPrice());
+        holder.dishPrice.setText("SRD " + current.getPrice());
         holder.dishImage.setImageDrawable(context.getDrawable(current.getImg_id()));
     }
 

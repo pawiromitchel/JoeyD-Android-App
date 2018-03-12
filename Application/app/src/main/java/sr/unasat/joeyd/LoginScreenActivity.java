@@ -20,6 +20,7 @@ import sr.unasat.joeyd.database.JoeydDAO;
 import sr.unasat.joeyd.entity.User;
 import sr.unasat.joeyd.fragments.LoginFragment;
 import sr.unasat.joeyd.fragments.LogoFragment;
+import sr.unasat.joeyd.services.SyncSpecialsWithDatabaseService;
 
 public class LoginScreenActivity extends AppCompatActivity {
 

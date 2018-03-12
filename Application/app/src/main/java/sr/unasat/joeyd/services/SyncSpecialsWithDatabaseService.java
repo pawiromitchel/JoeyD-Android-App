@@ -1,4 +1,4 @@
-package sr.unasat.joeyd;
+package sr.unasat.joeyd.services;
 
 import android.app.IntentService;
 import android.content.ContentValues;

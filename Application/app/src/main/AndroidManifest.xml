@@ -40,7 +40,7 @@
             android:label="@string/receipts_menu_act"/>
 
         <service
-            android:name=".SyncSpecialsWithDatabaseService"
+            android:name=".services.SyncSpecialsWithDatabaseService"
             android:exported="false"></service>
     </application>
 

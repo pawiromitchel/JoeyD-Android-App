@@ -7,22 +7,20 @@
     android:orientation="vertical"
     tools:context="sr.unasat.joeyd.MyOrderActivity">
 
-    <TextView
-        android:id="@+id/Title"
+    <Button
+        android:id="@+id/placeOrder"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My Orders"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        android:onClick="on_place_order"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center"
+        android:text="Place order" />
 
     <ListView
         android:id="@+id/myOrdersListView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/placeOrder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="on_place_order"
-        android:text="Place order"/>
 </LinearLayout>

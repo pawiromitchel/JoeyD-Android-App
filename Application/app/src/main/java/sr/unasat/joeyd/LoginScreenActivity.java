@@ -105,8 +105,10 @@ public class LoginScreenActivity extends AppCompatActivity {
 
                 goToLoginUser();
             } else {
-                Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Incorrect username/password", Toast.LENGTH_SHORT).show();
             }
+        } else {
+            Toast.makeText(this, "Please enter credentials", Toast.LENGTH_SHORT).show();
         }
     }
 }

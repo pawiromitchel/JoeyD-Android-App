@@ -41,7 +41,7 @@ public class Dish implements Serializable{
     }
 
     public String getPrice() {
-        return price;
+        return "SRD " + price;
     }
 
     public void setPrice(String price) {

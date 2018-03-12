@@ -37,7 +37,7 @@ public class OrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
 
-        dishNameTextView = (TextView) findViewById(R.id.dishNameTextView);
+        dishNameTextView = (TextView) findViewById(R.id.dish_desc_text);
         quantitySpinner = (Spinner) findViewById(R.id.quantitySpinner);
 
         dish = (Dish)getIntent().getSerializableExtra("dishObject");

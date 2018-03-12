@@ -4,23 +4,31 @@
     <string name="password">Password</string>
 
     <!--Today's Menu-->
-    <string name="special_menu">"Today's Specials"</string>
+    <string name="special_menu">Today\'s Specials</string>
     <string name="daily_menu">Daily Dishes</string>
 
     <!--Dish Description-->
-    <string name="order_button">ORDER :)</string>
+    <string name="add_to_order_button">"Add to 'My Orders'"</string>
+    <string name="order_button">Order</string>
 
+
+    <!--Activity Names-->
+    <string name="main_menu_act">Main Menu</string>
+    <string name="dish_descr_act">Dish Description</string>
+    <string name="dish_menu_act">Dish Menu</string>
+    <string name="my_order_menu_act">My Orders</string>
+    <string name="receipts_menu_act">My Receipts</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_main_menu">MainMenuActivity</string>
+    <string name="title_activity_main_menu">Main Menu</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="title_activity_dish_menu">DishMenuActivity</string>
-    <string name="title_activity_dish_description">DishDescriptionActivity</string>
+    <string name="title_activity_dish_menu">Dish Menu </string>
+    <string name="title_activity_dish_description">Dish Description</string>
 
     <string-array name="quantity_array">
         <item>1</item>

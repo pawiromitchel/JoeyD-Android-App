@@ -30,10 +30,14 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".TodaysMenuActivity" />
-        <activity android:name=".DishDescriptionActivity" />
-        <activity android:name=".OrderActivity" />
-        <activity android:name=".MyOrderActivity" />
-        <activity android:name=".MyReceiptsActivity" />
+        <activity android:name=".DishDescriptionActivity"
+            android:label="@string/dish_descr_act"/>
+        <activity android:name=".OrderActivity"
+            android:label="Order Dish"/>
+        <activity android:name=".MyOrderActivity"
+            android:label="@string/my_order_menu_act"/>
+        <activity android:name=".MyReceiptsActivity"
+            android:label="@string/receipts_menu_act"/>
 
         <service
             android:name=".SyncSpecialsWithDatabaseService"

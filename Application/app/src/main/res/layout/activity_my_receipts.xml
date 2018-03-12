@@ -7,13 +7,6 @@
     android:orientation="vertical"
     tools:context="sr.unasat.joeyd.MyReceiptsActivity">
 
-    <TextView
-        android:id="@+id/Title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="My Orders"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
     <ListView
         android:id="@+id/myReceiptsListView"
         android:layout_width="wrap_content"

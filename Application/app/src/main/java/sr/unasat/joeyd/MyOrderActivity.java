@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.preference.PreferenceManager;
@@ -78,53 +79,41 @@ public class MyOrderActivity extends AppCompatActivity {
         db.close();
     }
 
-//    public void onPlaceOrder(View view) {
-//        SQLiteOpenHelper joeyDDatabaseHelper = new JoeydDAO(this);
-//        db = joeyDDatabaseHelper.getReadableDatabase();
-//
-//        ContentValues receiptValueToUpdate = new ContentValues();
-//        receiptValueToUpdate.put("status", "ordered");
-//
-//        Cursor updateReceipt;
-//        updateReceipt = db.rawQuery(String.format("update receipt set status = 'ordered' where user_id = %s", UserID), null);
-//        if(updateReceipt.moveToFirst()){
-//            System.out.println(updateReceipt.getInt(0));
-//        }
-//        Toast.makeText(this, "Your order has been placed", Toast.LENGTH_LONG).show();
-//    }
-
     public void on_place_order (View view) {
         new onPlaceOrder().execute();
     }
 
-    private class onPlaceOrder extends AsyncTask<Integer, Void, String> {
+    private class onPlaceOrder extends AsyncTask<Integer, Void, Boolean> {
 
         protected void onPreExecute() {
             Toast.makeText(MyOrderActivity.this, "Your order is being placed placed", Toast.LENGTH_LONG).show();
         }
 
         @Override
-        protected String doInBackground(Integer... integers) {
+        protected Boolean doInBackground(Integer... integers) {
             SQLiteOpenHelper joeyDDatabaseHelper = new JoeydDAO(MyOrderActivity.this);
-            db = joeyDDatabaseHelper.getReadableDatabase();
+            try{
+                db = joeyDDatabaseHelper.getReadableDatabase();
 
-            ContentValues receiptVaueToUpdate = new ContentValues();
-            receiptVaueToUpdate.put("status", "ordered");
+                ContentValues receiptValueToUpdate = new ContentValues();
+                receiptValueToUpdate.put("status", "ordered");
 
-            Cursor updateReceipt;
-            updateReceipt = db.rawQuery(String.format("update receipt set status = 'ordered' where user_id = %s", UserID), null);
-            if (updateReceipt.moveToFirst()) {
-                System.out.println(updateReceipt.getInt(0));
+                db.update("receipt", receiptValueToUpdate, "user_id = ?", new String[] { String.valueOf(UserID) });
+                return true;
+            } catch (SQLException e){
+                return false;
             }
-
-            return null;
         }
 
+        protected void onPostExecute(Boolean success) {
+            if (success){
+                Toast.makeText(MyOrderActivity.this, "Your order has been placed", Toast.LENGTH_SHORT).show();
 
-
-        protected void onPostExecute(Boolean succes) {
-            if (!succes){
-                Toast.makeText(MyOrderActivity.this, "Your order has been placed", Toast.LENGTH_LONG).show();
+                // navigate user to the receipts
+                Intent intent = new Intent(MyOrderActivity.this, MyReceiptsActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(MyOrderActivity.this, "Placing order failed", Toast.LENGTH_SHORT).show();
             }
         }
     }

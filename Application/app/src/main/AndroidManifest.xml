@@ -33,7 +33,11 @@
         <activity android:name=".DishDescriptionActivity" />
         <activity android:name=".OrderActivity" />
         <activity android:name=".MyOrderActivity" />
-        <activity android:name=".MyReceiptsActivity"></activity>
+        <activity android:name=".MyReceiptsActivity" />
+
+        <service
+            android:name=".SyncSpecialsWithDatabaseService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

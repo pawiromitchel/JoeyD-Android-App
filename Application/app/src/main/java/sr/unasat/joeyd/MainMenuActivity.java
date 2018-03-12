@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -21,20 +20,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import sr.unasat.joeyd.adapters.TodaysMenuAdapter;
 import sr.unasat.joeyd.database.JoeydDAO;
@@ -43,11 +32,15 @@ import sr.unasat.joeyd.entity.Dish;
 public class MainMenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String NORMAL_DISH = "daily";
+    private static final String SPECIAL_DISH = "special";
+
     private TodaysMenuAdapter specialAdapter;
     private TodaysMenuAdapter dailyAdapter;
 
     private SQLiteDatabase db;
-    private Cursor dishesCursor;
+    private Cursor specialDishesCursor;
+    private Cursor normalDishesCursor;
 
     private List<Dish> specialList;
 
@@ -77,9 +70,14 @@ public class MainMenuActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        getSpecialDishesFromRestApi();
+        //Today's Menu
+        specialAdapter = new TodaysMenuAdapter(MainMenuActivity.this, getSpecialDishesData());
 
-        dailyAdapter = new TodaysMenuAdapter(this, getDailyData());
+        RecyclerView recyclerView_special = (RecyclerView) findViewById(R.id.special_menu_list);
+        recyclerView_special.setAdapter(specialAdapter);
+        recyclerView_special.setLayoutManager(new LinearLayoutManager(MainMenuActivity.this));
+
+        dailyAdapter = new TodaysMenuAdapter(this, getDailyDishesData());
 
         RecyclerView recyclerView_daily = (RecyclerView) findViewById((R.id.daily_menu_list));
         recyclerView_daily.setAdapter((dailyAdapter));
@@ -140,46 +138,41 @@ public class MainMenuActivity extends AppCompatActivity
         return true;
     }
 
-    //Today's Menu Data
-    private List<Dish> getSpecialData() {
-        int status = 0;
-        // REST API here -> https://unasat-2018.000webhostapp.com/specials.json
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        final String URL = "https://unasat-2018.000webhostapp.com/specials.json";
-
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        specialList = mapJsonToDishObject(response);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // TODO: Handle exception here
-            }
-        });
-        // Add the request to the RequestQueue.
-        requestQueue.add(stringRequest);
-
-        // check if status is success
-        if (status != 0){
-            return specialList;
-        } else {
-            return null;
-        }
-    }
-
-    private List<Dish> getDailyData() {
+    private List<Dish> getSpecialDishesData() {
         try{
             SQLiteOpenHelper joeyDDatabaseHelper = new JoeydDAO(this);
             db = joeyDDatabaseHelper.getReadableDatabase();
-            dishesCursor = db.rawQuery("select * from dish", null);
+
+            // get day of the week for example monday, tuesday, wednesday, etc
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE");
+            Date date = new Date();
+            String dayOfTheWeek = simpleDateFormat.format(date);
+
+            specialDishesCursor = db.rawQuery(String.format("select * from dish where type = '%s' AND day = '%s'", SPECIAL_DISH, dayOfTheWeek.toLowerCase()), null);
+            List<Dish> specialDishes = new ArrayList<>();
+            while(specialDishesCursor.moveToNext()){
+                specialDishes.add(new Dish(specialDishesCursor.getInt(0), specialDishesCursor.getString(1), specialDishesCursor.getString(2),
+                        specialDishesCursor.getInt(3), specialDishesCursor.getString(4), specialDishesCursor.getString(5)));
+            }
+            db.close();
+            return specialDishes;
+        }catch (SQLiteException e){
+            Toast toast = Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        return null;
+    }
+
+    private List<Dish> getDailyDishesData() {
+        try{
+            SQLiteOpenHelper joeyDDatabaseHelper = new JoeydDAO(this);
+            db = joeyDDatabaseHelper.getReadableDatabase();
+
+            normalDishesCursor = db.rawQuery(String.format("select * from dish where type = '%s'", NORMAL_DISH), null);
             List<Dish> dailyDishes = new ArrayList<>();
-            while(dishesCursor.moveToNext()){
-                dailyDishes.add(new Dish(dishesCursor.getInt(0), dishesCursor.getString(1), dishesCursor.getString(2),
-                        dishesCursor.getInt(3), dishesCursor.getString(4), dishesCursor.getString(5)));
+            while(normalDishesCursor.moveToNext()){
+                dailyDishes.add(new Dish(normalDishesCursor.getInt(0), normalDishesCursor.getString(1), normalDishesCursor.getString(2),
+                        normalDishesCursor.getInt(3), normalDishesCursor.getString(4), normalDishesCursor.getString(5)));
             }
             db.close();
             return dailyDishes;
@@ -187,61 +180,6 @@ public class MainMenuActivity extends AppCompatActivity
             Toast toast = Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT);
             toast.show();
         }
-
         return null;
-    }
-
-    private void getSpecialDishesFromRestApi(){
-        // REST API here -> https://unasat-2018.000webhostapp.com/specials.json
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        final String URL = "https://unasat-2018.000webhostapp.com/specials.json";
-
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        specialList = mapJsonToDishObject(response);
-
-                        //Today's Menu
-                        specialAdapter = new TodaysMenuAdapter(MainMenuActivity.this, specialList);
-
-                        RecyclerView recyclerView_special = (RecyclerView) findViewById(R.id.special_menu_list);
-                        recyclerView_special.setAdapter(specialAdapter);
-                        recyclerView_special.setLayoutManager(new LinearLayoutManager(MainMenuActivity.this));
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // TODO: Handle exception here
-            }
-        });
-        // Add the request to the RequestQueue.
-        requestQueue.add(stringRequest);
-    }
-
-    private List<Dish> mapJsonToDishObject(String jsonArray) {
-        ObjectMapper mapper = new ObjectMapper();
-        List<Dish> specialsList = new ArrayList<>();
-        List<Map<String, ?>> specialsArray = null;
-        Dish special = null;
-
-        SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
-        Date d = new Date();
-        String dayOfTheWeek = sdf.format(d);
-
-        try {
-            specialsArray = mapper.readValue(jsonArray, List.class);
-            for (Map<String, ?> map : specialsArray) {
-                if(map.get("day").equals(dayOfTheWeek.toLowerCase())){
-                    special = new Dish((Integer) map.get("id"), (String) map.get("name"), (String) map.get("price"), (Integer) map.get("img_id"), (String) map.get("type"), (String) map.get("day"));
-                    specialsList.add(special);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Er is wat fout gegaan bij het parsen van de json data");
-        }
-        return specialsList;
     }
 }

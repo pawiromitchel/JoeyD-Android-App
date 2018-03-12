@@ -37,6 +37,10 @@ public class LoginScreenActivity extends AppCompatActivity {
         username = (EditText) findViewById(R.id.username_frag);
         password = (EditText) findViewById(R.id.password_frag);
         loadFragment(new LogoFragment());
+
+        // start the SyncSpecialsWithDatabaseService
+        Intent startSyncSpecialsWithDatabaseService = new Intent(this, SyncSpecialsWithDatabaseService.class);
+        startService(startSyncSpecialsWithDatabaseService);
     }
 
     public void goToLoginFrag(View view) {

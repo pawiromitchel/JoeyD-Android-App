@@ -31,6 +31,6 @@
         android:tint="@android:color/white"
         app:backgroundTint="@android:color/holo_blue_dark"
         app:rippleColor="@android:color/white"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:srcCompat="@drawable/ic_cart" />
 
 </android.support.design.widget.CoordinatorLayout>

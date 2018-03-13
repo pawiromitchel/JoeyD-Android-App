@@ -10,6 +10,7 @@
     <!--Dish Description-->
     <string name="add_to_order_button">"Add to 'My Orders'"</string>
     <string name="order_button">Order</string>
+    <string name="dish_desc_price">Price:</string>
 
 
     <!--Activity Names-->

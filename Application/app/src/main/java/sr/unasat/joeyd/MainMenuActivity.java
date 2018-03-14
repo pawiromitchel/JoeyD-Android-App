@@ -123,8 +123,8 @@ public class MainMenuActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_myAccount) {
-//            Intent myAccount = new Intent(this, MyAccountActivity.class);
-//            startActivity(myAccount);
+            Intent myAccount = new Intent(this, MyAccountActivity.class);
+            startActivity(myAccount);
         } else if (id == R.id.nav_myReceipts) {
             Intent myReceipts = new Intent(this, MyReceiptsActivity.class);
             startActivity(myReceipts);

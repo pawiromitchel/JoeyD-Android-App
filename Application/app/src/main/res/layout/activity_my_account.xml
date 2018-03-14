@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="sr.unasat.joeyd.MyAccountActivity">
+
+    <!--labels-->
+    <TextView
+        android:id="@+id/labelUserName"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:paddingStart="8dp"
+        android:text="Username" />
+
+    <TextView
+        android:id="@+id/labelFirstName"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/labelUserName"
+        android:paddingBottom="8dp"
+        android:paddingStart="8dp"
+        android:text="First Name"
+        android:paddingTop="8dp" />
+
+    <TextView
+        android:id="@+id/labelLastName"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/labelFirstName"
+        android:paddingBottom="8dp"
+        android:text="Last Name"
+        android:paddingStart="8dp"
+        android:paddingTop="8dp" />
+
+    <TextView
+        android:id="@+id/labelPhoneNumber"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/labelLastName"
+        android:paddingBottom="8dp"
+        android:paddingStart="8dp"
+        android:paddingTop="8dp"
+        android:text="Phone Number" />
+
+    <!--Values-->
+    <TextView
+        android:id="@+id/userUserName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:layout_toRightOf="@id/labelUserName"
+        android:paddingTop="8dp"
+        android:text="Sniffle" />
+
+    <TextView
+        android:id="@+id/userFirstName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/userUserName"
+        android:paddingBottom="8dp"
+        android:layout_toRightOf="@id/labelFirstName"
+        android:paddingTop="8dp"
+        android:text="Mario" />
+
+    <TextView
+        android:id="@+id/userLastName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/userFirstName"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:layout_toRightOf="@id/labelLastName"
+        android:text="Sniffle" />
+
+    <TextView
+        android:id="@+id/userPhoneNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/userLastName"
+        android:layout_toRightOf="@id/labelPhoneNumber"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:text="00000000" />
+
+</RelativeLayout>

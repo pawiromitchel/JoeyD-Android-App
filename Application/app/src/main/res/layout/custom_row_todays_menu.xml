@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="8dp"
-    android:paddingRight="8dp">
+    android:paddingRight="8dp"
+    android:paddingTop="2dp"
+    android:paddingBottom="2dp">
 
     <!--Layout for each row in the RecyclerView-->
 
@@ -21,6 +23,7 @@
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/dishImage"
         android:paddingLeft="8dp"
+        android:paddingTop="4dp"
         android:text="something"
         android:textSize="24sp" />
 
@@ -31,6 +34,7 @@
         android:layout_below="@+id/dishName"
         android:layout_toEndOf="@+id/dishImage"
         android:paddingLeft="8dp"
+        android:paddingTop="4dp"
         android:text="price"
         android:textSize="18sp" />
 

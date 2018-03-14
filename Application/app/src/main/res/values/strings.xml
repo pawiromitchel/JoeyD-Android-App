@@ -19,6 +19,7 @@
     <string name="dish_menu_act">Dish Menu</string>
     <string name="my_order_menu_act">My Orders</string>
     <string name="receipts_menu_act">My Receipts</string>
+    <string name="my_account">My Account</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

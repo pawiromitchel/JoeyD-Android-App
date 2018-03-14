@@ -43,10 +43,10 @@ public class MyAccountActivity extends Activity {
             firstName.setText(getUserCreds.getString(1));
 
             lastName = (TextView) findViewById(R.id.userLastName);
-            userName.setText(getUserCreds.getString(2));
+            lastName.setText(getUserCreds.getString(2));
 
             phoneNumber = (TextView) findViewById(R.id.userPhoneNumber);
-            userName.setText(getUserCreds.getString(5));
+            phoneNumber.setText(getUserCreds.getString(5));
 
         }
 
